@@ -1,16 +1,12 @@
 # Topics in Software Engineering
 
-This is a template repository for the topics in software engineering class I teach at CCNY.
-It comes with a pre-configured devcontainer that includes most of the tools you'll need during this semester. 
-If you start with this repository as a template you will have a ready to go development environment that you'll be able to 
-share with your team mates. Additionally, a demo github action workflow has been setup to help you with your first assignment.
 
-# Tools
-The tools that are installed with this devcontainer are:
+# Proposal: LedgerPay - A CryptoCurrency Payment Processor
 
-* act which allows you to run GitHub Actions in the local development environment.
-* terraform which lets you automate infrastructure provisioning
-* aws cli for interacting with AWS environment.
+LedgerPay is a cryptocurrency payment processor designed to help businesses accept crypto payments seamlessly, much like how Stripe enables online transactions. It provides a secure and efficient way for businesses to integrate cryptocurrency payments without relying on traditional banks.
 
-# For Students
-If you are a student in the class you can create a new repository using this template. Once you've created a repository of your own replace the content of this file with the description or you project idea.
+Businesses can sign up for LedgerPay and receive an API key, which they use to send invoice details to the LedgerPay API. In response, they receive a payment link that they can share with customers, allowing for smooth and secure transactions. The platform supports major cryptocurrencies, including Bitcoin, Ethereum, Solana, and USDC, ensuring broad accessibility for businesses and their customers.
+
+LedgerPay is compatible with all major cryptocurrency wallets, such as Trust Wallet, MetaMask, and Phantom Wallet, making it easy for users to complete transactions. Additionally, businesses have access to a comprehensive dashboard where they can track payments, analyze transaction data, view their crypto balances, and withdraw funds to offline wallets.
+
+One of the biggest challenges businesses face in adopting cryptocurrency payments is the reluctance of traditional banks to support digital assets. LedgerPay is a crypto-first payment processor that eliminates this barrier, providing a reliable and frictionless solution for businesses looking to embrace cryptocurrency without the restrictions imposed by financial institutions.
