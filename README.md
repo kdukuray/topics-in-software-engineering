@@ -1,7 +1,7 @@
 # Topics in Software Engineering
 
 
-# Proposal: LedgerPay - A CryptoCurrency Payment Processor
+# LedgerPay - A CryptoCurrency Payment Processor
 
 LedgerPay is a cryptocurrency payment processor designed to help businesses accept crypto payments seamlessly, much like how Stripe enables online transactions. It provides a secure and efficient way for businesses to integrate cryptocurrency payments without relying on traditional banks.
 
