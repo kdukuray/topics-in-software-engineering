@@ -10,3 +10,5 @@ Businesses can sign up for LedgerPay and receive an API key, which they use to s
 LedgerPay is compatible with all major cryptocurrency wallets, such as Trust Wallet, MetaMask, and Phantom Wallet, making it easy for users to complete transactions. Additionally, businesses have access to a comprehensive dashboard where they can track payments, analyze transaction data, view their crypto balances, and withdraw funds to offline wallets.
 
 One of the biggest challenges businesses face in adopting cryptocurrency payments is the reluctance of traditional banks to support digital assets. LedgerPay is a crypto-first payment processor that eliminates this barrier, providing a reliable and frictionless solution for businesses looking to embrace cryptocurrency without the restrictions imposed by financial institutions.
+
+""just fork by ASD"
