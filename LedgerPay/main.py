@@ -1,4 +1,62 @@
 #main.py
+#sqlite3
+from fastapi import FastAPI, HTTPException, Depends
+from pydantic import BaseModel, Field
+from sqlalchemy.orm import Session
+import models
+from database import engine, SessionLocal
+from typing import ClassVar
+
+app = FastAPI()
+
+# Create tables if they don't already exist
+models.Base.metadata.create_all(bind=engine)
+
+# Dependency to get the DB session
+def get_db():
+    try:
+        db = SessionLocal()
+        yield db
+    finally:
+        db.close()
+
+# Pydantic model for validating incoming data
+#user
+class User(BaseModel):
+    first_name: str = Field(min_length=1, max_length=100)  
+    last_name: str = Field(min_length=1, max_length=100)
+
+
+
+ 
+
+    USERS: ClassVar[list] = []
+
+# Get all books from the database
+'''
+@app.get("/")
+def read_api(db: Session = Depends(get_db)):
+    return db.query(models.Books).all()
+'''
+#user
+@app.get("/")
+def read_api(db: Session = Depends(get_db)):
+    return db.query(models.User).all()
+
+
+#create a new user
+@app.post("/")
+def create_user(user: User, db: Session = Depends(get_db)):
+    user_model = models.User(
+        first_name=user.first_name,
+        last_name=user.last_name
+    )
+
+    db.add(user_model)
+    db.commit()
+
+
+'''
 from fastapi import FastAPI, HTTPException, Depends, status
 from pydantic import BaseModel
 from typing import Annotated
@@ -62,3 +120,4 @@ async def read_user(user_id: int, db: db_dependency):
     if user is None:
         raise HTTPException(status_code=401, detail='User not found')
     return user
+    '''
