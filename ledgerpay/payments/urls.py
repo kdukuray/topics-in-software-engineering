@@ -4,5 +4,6 @@ from .views import dashboard
 
 urlpatterns = [
     path("login/", LoginView.as_view(template_name="payments/login.html"), name="login"),
-    path("dashboard/", dashboard, name="dashboard"),
+    path("", dashboard, name="dashboard"),
+    path("logout", LogoutView.as_view(), name="logout")
 ]
