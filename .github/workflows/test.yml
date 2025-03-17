@@ -22,17 +22,14 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: |
-          cd ledgerpay  # Move into the correct directory
-          pip install -r requirements.txt
+        working-directory: ledgerpay  # ✅ Move into the correct directory
+        run: pip install -r ../requirements.txt  # ✅ Use correct path
 
       - name: Run Migrations
-        run: |
-          cd ledgerpay  # Move into the correct directory
-          python manage.py migrate
+        working-directory: ledgerpay  # ✅ Move into the correct directory
+        run: python manage.py migrate
 
       - name: Run Tests
-        run: |
-          cd ledgerpay  # Move into the correct directory
-          pytest --ds=ledgerpay.settings --cov=withdrawal --cov-report=term-missing
+        working-directory: ledgerpay  # ✅ Move into the correct directory
+        run: pytest --ds=ledgerpay.settings --cov=withdrawal --cov-report=term-missing
 
