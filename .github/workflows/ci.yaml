@@ -1,0 +1,40 @@
+name: Django CI
+
+on:
+  pull_request:
+    branches:
+      - testing  # or whichever branch you're targeting for pull requests
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.12'  # You can specify the version of Python, e.g., 3.8 or 3.9
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install
+
+      # Step 3.5: Run server
+      - name: Run server
+        run: |
+          cd ledgerpay
+          python3 manage.py runserver
+
+      # Step 4: Run Unit Tests
+      - name: Run Unit Tests
+        run: |
+          pytest
+
+      
