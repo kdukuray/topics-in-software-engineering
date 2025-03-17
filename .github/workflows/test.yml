@@ -23,7 +23,13 @@ jobs:
 
       - name: Install dependencies
         working-directory: ledgerpay  # ✅ Move into the correct directory
-        run: pip install -r ../requirements.txt  # ✅ Use correct path
+        run: |
+          pip install --upgrade pip
+          pip install -r ../requirements.txt  # ✅ Use correct path
+
+      - name: Install `pytest` and dependencies manually
+        run: |
+          pip install pytest pytest-django pytest-cov  # ✅ Install required test packages
 
       - name: Run Migrations
         working-directory: ledgerpay  # ✅ Move into the correct directory
@@ -32,4 +38,3 @@ jobs:
       - name: Run Tests
         working-directory: ledgerpay  # ✅ Move into the correct directory
         run: pytest --ds=ledgerpay.settings --cov=withdrawal --cov-report=term-missing
-
