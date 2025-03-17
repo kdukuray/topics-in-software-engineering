@@ -22,19 +22,21 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        working-directory: ledgerpay  # ✅ Move into the correct directory
+        working-directory: ledgerpay
         run: |
           pip install --upgrade pip
-          pip install -r ../requirements.txt  # ✅ Use correct path
+          pip install -r ../requirements.txt
+          pip install pytest pytest-django pytest-cov  # ✅ Install pytest & dependencies
+          pip install playwright  # ✅ Install Playwright
 
-      - name: Install `pytest` and dependencies manually
+      - name: Install Playwright Browsers
         run: |
-          pip install pytest pytest-django pytest-cov  # ✅ Install required test packages
+          playwright install --with-deps  # ✅ Install required browsers
 
       - name: Run Migrations
-        working-directory: ledgerpay  # ✅ Move into the correct directory
+        working-directory: ledgerpay
         run: python manage.py migrate
 
       - name: Run Tests
-        working-directory: ledgerpay  # ✅ Move into the correct directory
+        working-directory: ledgerpay
         run: pytest --ds=ledgerpay.settings --cov=withdrawal --cov-report=term-missing
