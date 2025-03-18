@@ -1,3 +1,5 @@
+"""These are our end-to-end tests for signing in """
+
 from playwright.sync_api import sync_playwright
 
 def test_login_django_admin():
