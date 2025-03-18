@@ -30,7 +30,7 @@ jobs:
 
       - name: Navigate to project root
         run:
-          cd ledger_pay/ledgerpay
+          cd ledgerpay
 
       - name: Run Migrations
         run: python manage.py migrate
