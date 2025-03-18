@@ -38,7 +38,7 @@ jobs:
       - name: Run Unit & Integration Tests
         run: |
           cd ledgerpay
-          python manage.py runserver  
+          python manage.py runserver  &
           sleep 7 
           pytest --cov=payments --cov-report=xml
 
