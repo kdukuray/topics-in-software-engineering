@@ -34,7 +34,9 @@ jobs:
           python manage.py migrate
 
       - name: Run Unit & Integration Tests
-        run: pytest --cov=payments --cov-report=xml
+        run: |
+          cd ledgerpay
+          pytest --cov=payments --cov-report=xml
 
       - name: Upload Coverage Report
         uses: codecov/codecov-action@v4
