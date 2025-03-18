@@ -1,3 +1,5 @@
+"""These are our integration tests for our wallets and transactions """
+
 from django.test import TestCase
 from django.contrib.auth.models import User
 from ..models import Wallet, Transaction
