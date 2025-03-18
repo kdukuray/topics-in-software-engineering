@@ -11,4 +11,4 @@ LedgerPay is compatible with all major cryptocurrency wallets, such as Trust Wal
 
 One of the biggest challenges businesses face in adopting cryptocurrency payments is the reluctance of traditional banks to support digital assets. LedgerPay is a crypto-first payment processor that eliminates this barrier, providing a reliable and frictionless solution for businesses looking to embrace cryptocurrency without the restrictions imposed by financial institutions.
 
-""just fork by ASD"
+
