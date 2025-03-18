@@ -28,12 +28,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Navigate to project root
+      - name: Run Migrations
         run:
           cd ledgerpay
-
-      - name: Run Migrations
-        run: python manage.py migrate
+          python manage.py migrate
 
       - name: Run Unit & Integration Tests
         run: pytest --cov=payments --cov-report=xml
