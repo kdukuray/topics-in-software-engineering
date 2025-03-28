@@ -21,7 +21,8 @@ class Wallet(models.Model):
         if self.balance < Decimal("0.00"):
             raise ValueError("Wallet balance cannot be negative")
         if not self.company_name:
-            self.company_name = f"User: {self.associated_user.first_name +" "+self.associated_user.first_name}"
+            # self.company_name = f"User: {self.associated_user.first_name +" "+self.associated_user.first_name}"
+            self.company_name = "Not spacified"
         super().save(*args, **kwargs)
 
 
