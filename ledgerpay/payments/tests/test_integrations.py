@@ -11,8 +11,7 @@ class WalletTransactionIntegrationTest(TestCase):
     def setUp(self):
         """Creating a user and wallet before each test"""
         self.user = User.objects.create_user(username="testuser", email="test@example.com", password="password123")
-        self.wallet = Wallet.objects.create(associated_user=self.user, balance=Decimal("100.00"),
-                                            payment_token="testtoken")
+        self.wallet = Wallet.objects.create(associated_user=self.user, balance=Decimal("100.00"),company_name ="testCompany", payment_token="testtoken")
 
     def test_successful_transaction_updates_wallet_balance(self):
         """Test that a successful transaction deducts the amount from the wallet balance"""

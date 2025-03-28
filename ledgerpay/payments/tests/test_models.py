@@ -15,6 +15,7 @@ class WalletModelTest(TestCase):
         wallet = Wallet.objects.create(associated_user=self.user, balance=Decimal("100.50"), payment_token="abc123xyz")
         self.assertEqual(wallet.associated_user, self.user)
         self.assertEqual(wallet.balance, Decimal("100.50"))
+        self.assertEqual(wallet.company_name, "1Company")
         self.assertEqual(wallet.payment_token, "abc123xyz")
 
     def test_wallet_str_method(self):
