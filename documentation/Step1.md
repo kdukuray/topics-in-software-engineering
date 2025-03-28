@@ -46,3 +46,4 @@ python ledgerpay/manage.py runserver
 - dashboard after sign-in
 - Django admin page [Link](http://127.0.0.1:8000/admin/)
 
+## Check [Step2.md](Step2.md) for details on how to use the framework for development.
