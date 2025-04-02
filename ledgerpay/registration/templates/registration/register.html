@@ -1,0 +1,55 @@
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Owner Registration</title>
+</head>
+<body>
+    <h1>Business Owner Registration</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Owner Registration</title>
+</head>
+<body>
+    <h1>Business Owner Registration</h1>
+
+    {% if error_message %}
+        <div style="color: red;">
+            <p>{{ error_message }}</p>
+        </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            <label for="id_name">Name:</label>
+            <input type="text" name="name" value="{{ form.name.value }}" maxlength="100" required id="id_name">
+        </p>
+
+        <p>
+            <label for="id_email">Email:</label>
+            <input type="email" name="email" value="{{ form.email.value }}" maxlength="320" required id="id_email">
+        </p>
+
+        <p>
+            <label for="id_password">Password:</label>
+            <input type="password" name="password" required id="id_password">
+        </p>
+
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>

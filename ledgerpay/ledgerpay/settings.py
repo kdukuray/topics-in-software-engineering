@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'payments.apps.PaymentsConfig',
+    'registration', #added by ASD
 ]
 
 MIDDLEWARE = [

@@ -20,4 +20,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("payments.urls")),
+    path("register/", include("registration.urls")), # Add the registration URLs here
 ]
