@@ -1,9 +1,11 @@
 {% extends 'payments/base.html' %}
 
 {% block content %}
-    <form method="POST">
-        {{ form }}
-        {% csrf_token %}
-        <button>submit</button>
-    </form>
+    <div class="signup-container">
+        <form method="POST">
+            {{ form }}
+            {% csrf_token %}
+            <button>Login</button>
+        </form>
+    </div>
 {% endblock %}
