@@ -5,7 +5,10 @@ from .forms import add_user_and_wallet
 
 # Create your views here.
 @login_required(login_url="login")
+# dashboard elements
 def dashboard(request):
+    # transactions data
+    ## all transactions
     all_user_transactions = Transaction.objects.filter(associated_user=request.user)
     return render(request, 'payments/dashboard.html', context={"transactions": all_user_transactions})
 

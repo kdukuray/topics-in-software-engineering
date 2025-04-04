@@ -116,10 +116,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/payments/static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static",  # The location of the static directory
+    BASE_DIR / "payments/static",  # The location of the static directory
 ]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
