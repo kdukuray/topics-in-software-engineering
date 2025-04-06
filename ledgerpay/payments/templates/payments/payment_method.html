@@ -1,0 +1,47 @@
+{% extends 'payments/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="payment-container">
+    <h2>Select Preferred Payment Methods</h2>
+    {% if message %}
+        <p style="color: green;">{{ message }}</p>
+    {% elif error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+    <form method="POST" action="{% url 'payment_method' %}">
+        {% csrf_token %}
+        <div class="payment-options">
+            <label>
+                <input type="checkbox" name="payment_methods" value="credit_card" {% if 'credit_card' in selected_methods %}checked{% endif %}>
+                Credit Card
+            </label>
+            <label>
+                <input type="checkbox" name="payment_methods" value="paypal" {% if 'paypal' in selected_methods %}checked{% endif %}>
+                PayPal
+            </label>
+            <label>
+                <input type="checkbox" name="payment_methods" value="bank_transfer" {% if 'bank_transfer' in selected_methods %}checked{% endif %}>
+                Bank Transfer
+            </label>
+            <label>
+                <input type="checkbox" name="payment_methods" value="bitcoin" {% if 'bitcoin' in selected_methods %}checked{% endif %}>
+                Bitcoin (BTC)
+            </label>
+            <label>
+                <input type="checkbox" name="payment_methods" value="solana" {% if 'solana' in selected_methods %}checked{% endif %}>
+                Solana (SOL)
+            </label>
+            <label>
+                <input type="checkbox" name="payment_methods" value="ethereum" {% if 'ethereum' in selected_methods %}checked{% endif %}>
+                Ethereum (ETH)
+            </label>
+            <label>
+                <input type="checkbox" name="payment_methods" value="usdc" {% if 'usdc' in selected_methods %}checked{% endif %}>
+                USD Coin (USDC)
+            </label>
+        </div>
+        <button type="submit">Proceed</button>
+    </form>
+</div>
+{% endblock %}
