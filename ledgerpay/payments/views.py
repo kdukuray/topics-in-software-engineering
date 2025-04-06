@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Wallet, Transaction
 from .forms import add_user_and_wallet
-
+import json
 # Create your views here.
 @login_required(login_url="login")
 # dashboard elements
@@ -22,7 +22,6 @@ def signup(request):
     else:
         form = add_user_and_wallet()
     return render(request, 'payments/signup.html', {'form': form})
-
 @login_required(login_url="login")
 def payment_method(request):
     wallet, created = Wallet.objects.get_or_create(
@@ -40,7 +39,6 @@ def payment_method(request):
             wallet.save()
             return redirect('dashboard')  
         else:
-            #if notthing is selected
             return render(request, 'payments/payment_method.html', {
                 'selected_methods': wallet.preferred_payment_methods,
                 'error': 'Please select at least one payment method.'

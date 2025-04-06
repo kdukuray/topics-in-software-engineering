@@ -14,8 +14,7 @@ class Wallet(models.Model):
     # possibly public key of user crypto wallet
     payment_token = models.CharField(max_length=50)
     #this for the preferedpayment , it s a list of all prefereed paymnet
-    preferred_payment_methods = models.TextField(default="[]")
-    # a display of the object or row
+    preferred_payment_methods = models.JSONField(default=list)   # a display of the object or row
     def __str__(self):
         return f"{self.company_name}'s Wallet"
 
