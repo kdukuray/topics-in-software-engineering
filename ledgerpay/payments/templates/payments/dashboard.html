@@ -24,6 +24,9 @@
     </div>
 </div>
 <button>Request new payment</button><br>
+<a href="{% url 'payment_method' %}">
+    <button>Select Payment Methods</button>
+</a><br>
 <form action="{% url 'logout' %}" method="post">
     {% csrf_token %}
     <button>logout</button>

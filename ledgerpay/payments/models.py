@@ -13,7 +13,8 @@ class Wallet(models.Model):
     balance = models.DecimalField(max_digits=10, decimal_places=2)
     # possibly public key of user crypto wallet
     payment_token = models.CharField(max_length=50)
-    # a display of the object or row
+    #this for the preferedpayment , it s a list of all prefereed paymnet
+    preferred_payment_methods = models.JSONField(default=list)   # a display of the object or row
     def __str__(self):
         return f"{self.company_name}'s Wallet"
 
