@@ -1,0 +1,288 @@
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Core modern Steam-inspired styles */
+:root {
+    --primary-blue: #4400c2; /* Steam's signature blue */
+    --accent-teal: #2181ff; /* Softer teal for highlights */
+    --dark-bg: #171a21; /* Deep charcoal from Steam's palette */
+    --panel-bg: #2a2d3a; /* Lighter panel background */
+    --text-primary: #c7d5e0; /* Soft off-white for readability */
+    --text-secondary: #8f98a0; /* Muted gray for secondary text */
+    --glow-blue: rgba(26, 133, 255, 0.452);
+    --spacing: 1rem;
+}
+
+body {
+    font-family: 'Motiva Sans', 'Arial', sans-serif; /* Steam uses Motiva Sans */
+    background-color: var(--dark-bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+/* Container */
+.container {
+    width: 90%;
+    max-width: 1280px; /* Wider for modern layouts */
+    margin: 0 auto;
+    padding: var(--spacing);
+}
+
+/* Header */
+header {
+    background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
+    padding: calc(var(--spacing) * 1.5);
+    text-align: center;
+    box-shadow: 0 4px 20px var(--glow-blue);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+header h1 {
+    font-family: "Cloister Black", "Old English Text MT", "Times New Roman", serif;
+    font-size: 3.5rem;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+}
+
+/* Navigation */
+nav {
+    background-color: var(--panel-bg);
+    padding: var(--spacing);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    gap: calc(var(--spacing) * 1.5);
+    list-style: none;
+}
+
+nav ul li a {
+    color: var(--text-primary);
+    text-decoration: none;
+    padding: 0.75rem 1.25rem;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+}
+
+nav ul li a:hover {
+    color: var(--accent-teal);
+    background: rgba(102, 192, 244, 0.1);
+    box-shadow: 0 0 10px var(--glow-blue);
+}
+
+/* Main */
+main {
+    margin-top: calc(var(--spacing) * 2);
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: var(--accent-teal);
+    font-weight: 600;
+    text-shadow: 0 2px 8px var(--glow-blue);
+}
+
+h4 {
+    font-size: 1.8rem;
+    margin: 1rem;
+    color: var(--accent-teal);
+    font-weight: 300;
+    text-shadow: 0 2px 8px var(--glow-blue);
+}
+/* Footer */
+footer {
+    background-color: var(--panel-bg);
+    padding: var(--spacing);
+    text-align: center;
+    color: var(--text-secondary);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Buttons */
+button {
+    background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
+    color: var(--text-primary);
+    border: none;
+    padding: 0.85rem 1.75rem;
+    cursor: pointer;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    box-shadow: 0 4px 15px var(--glow-blue);
+    max-width: 300px;
+    margin: 5px;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--glow-blue);
+    background: linear-gradient(135deg, var(--accent-teal), var(--primary-blue));
+}
+
+.dashboard-container {
+    background: var(--panel-bg);
+    padding: 2.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(102, 192, 244, 0.2);
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 1200px;
+    margin: 2rem auto;
+}
+
+/* Forms - Signup Container */
+.signup-container {
+    background: var(--panel-bg);
+    padding: 2.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(102, 192, 244, 0.2);
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 480px;
+    margin: 2rem auto;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--spacing) * 1.2);
+}
+
+input, textarea {
+    padding: 0.85rem;
+    background: rgba(23, 26, 33, 0.8);
+    border: 1px solid rgba(102, 192, 244, 0.3);
+    color: var(--text-primary);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus {
+    border-color: var(--accent-teal);
+    outline: none;
+    box-shadow: 0 0 12px var(--glow-blue);
+    background: rgba(23, 26, 33, 1);
+}
+
+/* dashboard containers */
+.items-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Each item-block is a minimum of 300px wide */
+    gap: 16px; /* Space between the grid items */
+    padding: 10px;
+    background-color: #171a21;
+    border-radius: 8px;
+    border: 1px solid rgba(102, 192, 244, 0.2);
+}
+
+/* Styling for each item block */
+.item-block {
+    background-color: #242c36;
+    border-radius: 8px;
+    border: 1px solid rgba(102, 192, 244, 0.2);
+    padding: 16px;
+    color: #c7d5e0;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;  /* Items arranged vertically */
+    justify-content: flex-start;
+}
+
+/* Media query to change the width of item blocks depending on the number of items */
+@media (max-width: 1000px) {
+    .items-container {
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Adjust to 1/2 width for fewer items */
+    }
+}
+
+/* Styling for unordered list */
+.item-block ul {
+    list-style-type: none;  /* Remove default bullets */
+    padding-left: 0;        /* Remove the left padding */
+    margin: 0;              /* Remove default margin */
+    width: 100%;            /* Make the list take full width */
+}
+
+/* Styling for list items */
+.item-block ul li {
+    background-color: #1e262f; /* Dark background for list items */
+    margin-bottom: 10px;         /* Add space between items */
+    padding: 8px;                /* Add padding for better spacing */
+    border-radius: 4px;          /* Rounded corners for each list item */
+    color: #c7d5e0;              /* Light text color */
+    font-size: 16px;             /* Increase font size for readability */
+    line-height: 1.5;            /* Increase line height for better text readability */
+}
+
+/* Optional hover effect for list items */
+.item-block ul li:hover {
+    transition: 0.5s;
+    background-color: #3b434f; /* Lighten the background on hover */
+    cursor: pointer;           /* Change cursor to pointer on hover */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+    
+    .signup-container {
+        margin: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .container {
+        width: 95%; /* Make container a bit wider on mobile */
+        padding: 0.5rem;
+    }
+
+    .dashboard-container,
+    .signup-container {
+        margin: 1rem auto;
+        padding: 1.5rem;
+    }
+
+    .items-container {
+        grid-template-columns: 1fr; /* Stack items vertically on smaller screens */
+    }
+
+    button {
+        width: 100%; /* Make buttons full-width on mobile */
+        padding: 1rem; /* Make the button bigger */
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .signup-container {
+        width: 100%;
+        max-width: 100%; /* Make signup container full-width on very small screens */
+    }
+
+    .item-block {
+        padding: 12px;
+    }
+}
