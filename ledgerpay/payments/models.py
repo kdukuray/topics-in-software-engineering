@@ -2,8 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from decimal import Decimal
 
-
-
 class Wallet(models.Model):
     # Username from the users table
     associated_user = models.OneToOneField(User, on_delete=models.CASCADE)
