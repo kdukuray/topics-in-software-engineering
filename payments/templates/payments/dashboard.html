@@ -1,0 +1,25 @@
+{% extends 'payments/base.html' %}
+
+{% block content %}
+<div class="dashboard-container">
+<h1>
+    Dashboard
+</h1>
+<p>User Balance: {{ user.wallet.balance }}</p>
+<h3>All transactions</h3>
+<ul>
+    {% for i in transactions %}
+        <li>
+            {{ i.amount }} -
+            {{ i.transaction_date }}
+        </li>
+    {% endfor %}
+
+</ul>
+<button>Request new payment</button><br>
+<form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button>logout</button>
+</form>
+</div>
+{% endblock %}
