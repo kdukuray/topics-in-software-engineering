@@ -1,31 +1,32 @@
 {% extends 'payments/base.html' %}
 
 {% block content %}
-<div class="dashboard-container">
-<h1>
-    Dashboard - {{ user.wallet.company_name }}
-</h1>
-<h2>Your Balance on LedgerPay: {{ user.wallet.balance }}</h2>
-<h4>Transactions:</h4>
-<div class="items-container"> 
-    
-<!-- container of items -->
-    <div class="item-block">
-        <!-- one item -->
-        <ul>
-            {% for i in transactions %}
-                <li>
-                    {{ i }}
-                </li>
-            {% endfor %}
+<div class="page-container">
+    <h1>
+        Dashboard - {{ user.wallet.company_name }}
+    </h1>
+    <h2>Your Balance on LedgerPay: {{ user.wallet.balance }}</h2>
+    <h4>Transactions:</h4>
+    <div class="items-container"> 
+        
+    <!-- container of items -->
+        <div class="item-block">
+            <!-- one item -->
+            <ul>
+                {% for i in transactions %}
+                    <li>
+                        {{ i }}
+                    </li>
+                {% endfor %}
 
-        </ul>
+            </ul>
+        </div>
     </div>
-</div>
-<button>Request new payment</button><br>
-<form action="{% url 'logout' %}" method="post">
-    {% csrf_token %}
-    <button>logout</button>
-</form>
+    <button onclick="window.location.href='';">Request new payment</button><br>
+    <button  onclick="window.location.href='{% url 'withdraw' %}';" >withdraw</button><br>
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button>logout</button>
+    </form>
 </div>
 {% endblock %}
