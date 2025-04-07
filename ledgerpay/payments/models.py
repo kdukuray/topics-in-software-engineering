@@ -21,18 +21,19 @@ class Wallet(models.Model):
         if self.balance < Decimal("0.00"):
             raise ValueError("Wallet balance cannot be negative")
         if not self.company_name:
-            # self.company_name = f"User: {self.associated_user.first_name +" "+self.associated_user.first_name}"
+            # could be a diffrent default
             self.company_name = "Not spacified"
         super().save(*args, **kwargs)
 
 
 class Transaction(models.Model):
-    # states of transactions, [not implemented yet]
-    # transac_STATE = [
-    #     ('pending', 'Pending'),
-    #     ('in_progress', 'In Progress'),
-    #     ('completed', 'Completed'),
-    # ]
+    # states of transactions
+    class TransactionState(models.TextChoices):
+        PENDING = 'pending', 'Pending'
+        PROCESSING = 'processing', 'Processing'
+        COMPLETED = 'completed', 'Completed'
+        FAILED = 'failed', 'Failed'
+        CANCELED = 'canceled', 'Canceled'
 
     # date transaction was made
     transaction_date = models.DateTimeField(auto_now_add=True)
@@ -43,18 +44,25 @@ class Transaction(models.Model):
     # the user who got paid
     associated_user = models.ForeignKey(User, on_delete=models.CASCADE)
     # Currentstate of the transaction, made for dashboard filtering, need confirmation before migration
-    # state = models.CharField(
-    #     max_length=20,  
-    #     choices=transac_STATE,
-    #     default='pending',  
-    # )
+    state = models.CharField(
+        max_length=10,
+        choices=TransactionState.choices,
+        default=TransactionState.PENDING
+    )
 
     # a display of the object or row
     def __str__(self):
-        return f"transaction of ${self.amount} to {self.associated_user.email}"
+        return f"transaction of ${self.amount} to {self.associated_user.email}, state: {self.get_state_display()}"
 
     def save(self, *args, **kwargs):
         if self.amount <= Decimal("0.00"):
             raise ValueError("Transaction amount must be positive")
         super().save(*args, **kwargs)
+
+
+    def set_state(self, new_state):
+        """Helper method to change the state of a transaction."""
+        if new_state in [state[0] for state in self.TransactionState.choices]:
+            self.state = new_state
+            self.save()
 
