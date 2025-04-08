@@ -24,3 +24,17 @@ A `User` can be associated with multiple `Transactions`, establishing a one-to-m
 `Transactions`. Each transaction stores data such as the amount, transaction date, address, and its current state. 
 
 ---
+### Call Sequence Diagram
+
+![Call Sequence Diagram](./call_seq.png)
+
+This call sequence diagram represents the process of accepting a transaction on behalf of our users (clients/business 
+owners). The flow begins when the actor (a customer) initiates a checkout on the client’s website. The client site 
+redirects the customer to our hosted invoice page.
+
+On the invoice page, the customer is prompted to connect their Solana wallet. Once the wallet is connected and verifies the transaction,
+the transaction request is generated and sent to the Solana network for processing. After confirmation, the invoice page 
+notifies the backend server of the successful transaction.
+
+Finally, the backend processes this transaction and stores the details, then the invoice page sends an alert back to the 
+client site to notify the user that the transaction was successful. 
