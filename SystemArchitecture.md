@@ -12,3 +12,15 @@ The backend, built using Django, processes this data and stores it using an ORM 
 allows the client to track payments and manage transactions securely from the dashboard.
 
 ---
+### Entity Diagram
+
+![Entity Diagram](./erd_ledger_pay.png)
+
+This entity relationship diagram shows the core data model of the LedgerPay system focused on users, wallets, and 
+transactions. Each `User` has a unique `Wallet` in a one-to-one relationship. The wallet contains additional information 
+such as the company name, balance, and a payment token. 
+
+A `User` can be associated with multiple `Transactions`, establishing a one-to-many relationship between `User` and 
+`Transactions`. Each transaction stores data such as the amount, transaction date, address, and its current state. 
+
+---
