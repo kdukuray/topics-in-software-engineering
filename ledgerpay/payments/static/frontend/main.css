@@ -25,6 +25,39 @@ body {
     font-size: 1rem;
 }
 
+
+/* scroll bar */
+/* Style the scrollbar track (background of the scrollbar) */
+::-webkit-scrollbar {
+    width: 12px;  /* Width of the vertical scrollbar */
+    height: 12px; /* Height of the horizontal scrollbar */
+  }
+  
+  /* Style the scrollbar thumb (the draggable part) */
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--dark-bg); /* Dark color for thumb */
+    border-radius: 6px;         /* Rounded corners for the thumb */
+    border: 3px solid var(--panel-bg); /* Subtle border for thumb */
+  }
+  
+  /* Style the scrollbar thumb when hovered */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--panel-bg); /* Lighter dark color when hovered */
+  }
+  
+  /* Style the scrollbar track when it's active (when thumb is dragged) */
+  ::-webkit-scrollbar-track {
+    background: var(--dark-bg); /* Darker track color */
+    border-radius: 10px;  /* Rounded corners for the track */
+  }
+  
+  /* Style the scrollbar corner (when both scrollbars are present) */
+  ::-webkit-scrollbar-corner {
+    background: #222222; /* Matching color to the track */
+  }
+/* scroll bar end */
+
+
 /* Container */
 .container {
     width: 90%;
@@ -64,7 +97,7 @@ nav ul {
     list-style: none;
 }
 
-nav ul li a {
+nav ul li a{
     color: var(--text-primary);
     text-decoration: none;
     padding: 0.75rem 1.25rem;
@@ -77,6 +110,7 @@ nav ul li a:hover {
     background: rgba(102, 192, 244, 0.1);
     box-shadow: 0 0 10px var(--glow-blue);
 }
+
 
 /* Main */
 main {
@@ -109,9 +143,14 @@ footer {
     bottom: 0;
     width: 100%;
 }
-
 /* Buttons */
-button {
+li > button{
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: medium;
+}
+button:not(li > button) {
     background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
     color: var(--text-primary);
     border: none;
@@ -126,13 +165,13 @@ button {
     transition: all 0.3s ease;
 }
 
-button:hover {
+button:hover:not(li > button) {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px var(--glow-blue);
     background: linear-gradient(135deg, var(--accent-teal), var(--primary-blue));
 }
 
-.dashboard-container {
+.page-container {
     background: var(--panel-bg);
     padding: 2.5rem;
     border-radius: 8px;
@@ -256,7 +295,7 @@ input:focus, textarea:focus {
         padding: 0.5rem;
     }
 
-    .dashboard-container,
+    .page-container,
     .signup-container {
         margin: 1rem auto;
         padding: 1.5rem;

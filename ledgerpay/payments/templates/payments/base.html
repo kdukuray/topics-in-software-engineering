@@ -9,14 +9,25 @@
 </head>
 <body>
     <header>
-        <h1>LedgerPay</h1>
+        <a href="/" style="text-decoration: none; color: white;"><h1>LedgerPay</h1></a>
     </header>
 
     <nav>
         <ul>
-            <li><a href="/admin">Admin Page</a></li>
-            <li><a href="/">login</a></li>
-            <li><a href="/signup">signup</a></li>
+            {% if user.is_authenticated %}
+                {% if user.is_superuser %}
+                <li><a href="/admin">Admin Page</a></li>
+                {% endif %}
+            <form action="{% url 'logout' %}" method="post">
+                <li>
+                    {% csrf_token %}
+                    <button ><a >Logout</a></button>
+                </li>
+            </form>
+            {% else %}
+                <li><a href="/">login</a></li>
+                <li><a href="/signup">signup</a></li>
+            {% endif %}
         </ul>
     </nav>
 
