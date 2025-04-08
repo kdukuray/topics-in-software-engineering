@@ -38,14 +38,15 @@ function Invoice() {
   async function makeAndSendTransation() {
     const blockchainConnection = new Connection(clusterApiUrl("devnet"), "confirmed");
     await wallet.connect();
-
+  
+    let txid = null; // Track txid outside the try block so we can use it in the finally block
+  
     try {
       const fromPubkey = new PublicKey(wallet.publicKey);
-      const toPubkey = new PublicKey("5hM386Bx7DeyWTP3VvePE5TAYTxMU4s9jvSWQcPbhuE7");
-
-      // Convert price from SOL to lamports (1 SOL = 1_000_000_000 lamports)
+      // let toPubkey = new PublicKey(queryParams.get("payment_token"));
+      let toPubkey = new PublicKey("5hM386Bx7DeyWTP3VvePE5TAYTxMU4s9jvSWQcPbhuE7");
       const lamports = totalPrice * 1_000_000_000;
-
+  
       let transaction = new Transaction().add(
         SystemProgram.transfer({
           fromPubkey,
@@ -53,25 +54,50 @@ function Invoice() {
           lamports,
         })
       );
-
-      // items=_#_[name, price,count]_#_
-
+  
       transaction.feePayer = fromPubkey;
       transaction.recentBlockhash = (await blockchainConnection.getLatestBlockhash()).blockhash;
-
+  
       const signedTransaction = await wallet.signTransaction(transaction);
-      const txid = await blockchainConnection.sendRawTransaction(signedTransaction.serialize());
+      txid = await blockchainConnection.sendRawTransaction(signedTransaction.serialize());
       await blockchainConnection.confirmTransaction(txid, "confirmed");
-
-      alert(`Transaction successful! \nTransaction ID:\n${txid}`);
+  
       console.log("Transaction ID:", txid);
+      alert(`Transaction successful! \nTransaction ID:\n${txid}`);
     } catch (error) {
       console.error("Transaction failed:", error);
       alert("Transaction failed. See console for details.");
+    } finally {
+      // Always send data to backend, even if txid is null or undefined
+      try {
+        const response = await fetch("http://localhost:8000/create-transaction/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            // payment_token: queryParams.get("payment_token"),
+            payment_token: "5hM386Bx7DeyWTP3VvePE5TAYTxMU4s9jvSWQcPbhuE7",
+            amount: totalPrice.toFixed(2),
+            // transaction_address: txid, // Will be null if transaction failed
+            transaction_address: "demo_devnet_kjkfwnkndwkelndkwejndwednl"
+          }),
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok) {
+          alert("Transaction recorded in backend.\nNew balance: $" + data.new_balance);
+        } else {
+          alert("Backend failed: " + data.error);
+        }
+      } catch (backendError) {
+        console.error("Failed to save transaction in backend:", backendError);
+      }
     }
   }
-
-
+  
+  
   return (
     <div className="app-container">
       <div className="card">

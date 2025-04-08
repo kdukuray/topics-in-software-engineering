@@ -6,6 +6,11 @@ from .forms import WithdrawalForm  # Import the WithdrawalForm we just created
 from decimal import Decimal  # For handling precise financial calculations
 from django.contrib import messages  # Allows sending user-friendly messages
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+
+
 # Create your views here.
 @login_required(login_url="login")
 # dashboard elements
@@ -79,5 +84,53 @@ def withdraw_funds(request):
     "form": form,
     "balance": user_wallet.balance
 })
-   
-  
+
+
+
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+@api_view(['POST'])
+def create_transaction(request):
+    print(2)
+    # print(2)
+    payment_token = request.data.get('payment_token')
+    amount = Decimal(request.data.get('amount') or 0)
+    transaction_address = request.data.get('transaction_address')
+    # print(2)
+    # Light validation — commented strict checks for demo
+    # if not payment_token or not transaction_address or amount <= 0:
+    #     return Response({"error": "Invalid input."}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Attempt to find wallet
+    wallet = Wallet.objects.get(payment_token=payment_token)
+    # try:
+    #
+    # except Wallet.DoesNotExist:
+    #     # For demo, create a wallet if it doesn't exist
+    #     wallet = Wallet.objects.create(payment_token=payment_token, balance=Decimal("1000.00"))
+
+    # Skip balance check for demo
+    # if wallet.balance < amount:
+    #     return Response({"error": "Insufficient balance."}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Deduct balance (or skip this if you want to keep the same balance)
+    wallet.balance += amount
+    wallet.save()
+
+    # Create transaction
+    transaction = Transaction.objects.create(
+        amount=amount,
+        transaction_address=transaction_address or "DEMO_TXID",
+        associated_user=wallet.associated_user
+    )
+    transaction.save()
+
+    return Response({
+        "message": "Transaction created successfully.",
+        "transaction_id": transaction.id,
+        "new_balance": str(wallet.balance)
+    }, status=status.HTTP_201_CREATED)
+
+# except Exception as e:
+#     return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -114,11 +114,11 @@ const Checkout = () => {
       <ul>
         {cart.map((product, index) => (
           <li key={index}>
-            {product.name} - ${product.price}
+            {product.name} - {product.price} SOL
           </li>
         ))}
       </ul>
-      <h3>Total: ${cart.reduce((total, product) => total + product.price, 0)}</h3>
+      <h3>Total: {cart.reduce((total, product) => total + product.price, 0)} SOL</h3>
 
       <div>
         <button onClick={() => window.location.href = getInvoiceUrl()}>Pay with LedgerPay</button>
