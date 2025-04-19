@@ -1,18 +1,28 @@
-import logo from './logo.svg';
-import { Transaction, Connection, PublicKey, clusterApiUrl,  SystemProgram } from '@solana/web3.js';
+
+import { Transaction, Connection, PublicKey, clusterApiUrl, SystemProgram } from '@solana/web3.js';
 import { useState } from 'react';
 import { Buffer } from 'buffer';
-import './App.css';
+
 
 function Invoice() {
   const queryParams = new URLSearchParams(window.location.search);
 
   const [connectionStatus, setConnectionStatus] = useState();
   const [userPublicKey, setUserPublicKey] = useState(false);
-  const [item, setItem] = useState(queryParams.get("item_name"));
-  const [price, setPrice] = useState(Number(queryParams.get("price")));
-  const [tax, setTax] = useState(Number(queryParams.get("tax")));
+  const [items, setItems] = useState(queryParams.get("items"));
+  const [prices, setPrices] = useState(queryParams.get("prices"));
+  const [counts, setCounts] = useState(queryParams.get("counts"))
+  // const [tax, setTax] = useState(Number(queryParams.get("tax")));
   const [paymentType, setPaymentType] = useState("One Time Payment");
+
+  const itemNames = items.split(" ");
+  const itemPrices = prices.split(" ");
+  const itemCounts = counts.split(" ");  // fixed typo: 'ittemCounts' to 'itemCounts'
+
+  const totalPrice = itemPrices
+    .map((price, index) => parseFloat(price) * parseInt(itemCounts[index] || "1"))
+    .reduce((sum, subtotal) => sum + subtotal, 0);
+
 
   window.Buffer = Buffer;
   const wallet = window.solana;
@@ -34,7 +44,7 @@ function Invoice() {
       const toPubkey = new PublicKey("5hM386Bx7DeyWTP3VvePE5TAYTxMU4s9jvSWQcPbhuE7");
 
       // Convert price from SOL to lamports (1 SOL = 1_000_000_000 lamports)
-      const lamports = price * 1_000_000_000;
+      const lamports = totalPrice * 1_000_000_000;
 
       let transaction = new Transaction().add(
         SystemProgram.transfer({
@@ -43,6 +53,8 @@ function Invoice() {
           lamports,
         })
       );
+
+      // items=_#_[name, price,count]_#_
 
       transaction.feePayer = fromPubkey;
       transaction.recentBlockhash = (await blockchainConnection.getLatestBlockhash()).blockhash;
@@ -78,9 +90,28 @@ function Invoice() {
       <div className="card">
         <h2 className="card-heading">Transaction Details</h2>
         <div className="transaction-details">
-          <p><strong>Item:</strong> {item}</p>
-          <p><strong>Price:</strong> {price} SOL</p>
-          <p><strong>Tax:</strong> {tax}</p>
+          <p><strong>Cart Details:</strong></p>
+          <div>
+            <table className="styled-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                {itemNames.map((cartItem, index) => (
+                  <tr key={index}>
+                    <td>{cartItem}</td>
+                    <td>{itemPrices[index]}</td>
+                    <td>{itemCounts[index]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p><strong>Total: {totalPrice}</strong></p>
           <p><strong>Payment Type:</strong> {paymentType}</p>
         </div>
         <button onClick={makeAndSendTransation} className="btn btn-purple">Make Transaction</button>
@@ -89,4 +120,4 @@ function Invoice() {
   );
 }
 
-export default App;
+export default Invoice;
