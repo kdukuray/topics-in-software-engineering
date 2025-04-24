@@ -11,6 +11,8 @@ class Wallet(models.Model):
     balance = models.DecimalField(max_digits=10, decimal_places=2)
     # possibly public key of user crypto wallet
     payment_token = models.CharField(max_length=50)
+    # The public wallet address that will receive transaction for the associated user
+    wallet_address = models.CharField(max_length=255, blank=True, null=True)
     # a display of the object or row
     def __str__(self):
         return f"{self.company_name}'s Wallet"
@@ -41,6 +43,9 @@ class Transaction(models.Model):
     # the user who got paid
     associated_user = models.ForeignKey(User, on_delete=models.CASCADE)
     # Currentstate of the transaction, made for dashboard filtering, need confirmation before migration
+
+    # the unique identifier for the transaction as it saved on the blockchain
+    on_chain_transaction_id = models.CharField(max_length=255, blank=True, null=True)
     state = models.CharField(
         max_length=10,
         choices=TransactionState.choices,
