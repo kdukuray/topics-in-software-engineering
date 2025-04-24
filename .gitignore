@@ -36,3 +36,6 @@ terraform.rc
 # Ignore enviroments
 /env
 /venv
+
+# Ignore pycache
+ledgerpay/payments/__pycache__/
