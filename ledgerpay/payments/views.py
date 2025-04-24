@@ -5,6 +5,8 @@ from .forms import add_user_and_wallet
 from .forms import WithdrawalForm  # Import the WithdrawalForm we just created
 from decimal import Decimal  # For handling precise financial calculations
 from django.contrib import messages  # Allows sending user-friendly messages
+from datetime import datetime, timedelta # For date calculations
+
 
 # Create your views here.
 def home_page(request):
@@ -17,7 +19,11 @@ def dashboard(request):
     # transactions data
     ## all transactions
     all_user_transactions = Transaction.objects.filter(associated_user=request.user)
-    return render(request, 'payments/dashboard.html', context={"transactions": all_user_transactions})
+
+
+    return render(request, 'payments/dashboard.html', context={
+    "transactions": all_user_transactions
+})
 
 
 def signup(request):

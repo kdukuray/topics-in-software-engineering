@@ -8,19 +8,150 @@
     <h2>Your Balance on LedgerPay: {{ user.wallet.balance }}</h2>
     <h4>Transactions:</h4>
     <div class="items-container"> 
-        
-    <!-- container of items -->
-        <div class="item-block">
-            <!-- one item -->
-            <ul>
-                {% for i in transactions %}
-                    <li>
-                        {{ i }}
-                    </li>
-                {% endfor %}
+        <!-- Table -->
 
-            </ul>
-        </div>
+
+        <style>
+            /* Basic Styling */
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #1e1e1e;
+                color: #f0f0f0;
+            }
+        
+            .container {
+                width: 90%;
+                margin: 0 auto;
+            }
+        
+            h2 {
+                color: #e2e2e2;
+            }
+        
+            table {
+                width: 100%;
+                margin-top: 20px;
+                border-collapse: collapse;
+                background-color: #2d2d2d;
+                color: #f0f0f0;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+        
+            th, td {
+                padding: 10px;
+                text-align: left;
+            }
+        
+            th {
+                cursor: pointer;
+                background-color: #333;
+                border-bottom: 2px solid #444;
+            }
+        
+            tr:nth-child(even) {
+                background-color: #3a3a3a;
+            }
+        
+            tr:hover {
+                background-color: #555;
+            }
+        
+            th.sortable:hover {
+                background-color: #666;
+            }
+        
+            .sorted-asc::after {
+                content: " ↑";
+            }
+        
+            .sorted-desc::after {
+                content: " ↓";
+            }
+        </style>
+        
+    <table id="transactionsTable">
+        <thead>
+            <tr>
+                <th class="sortable" onclick="sortTable(0)">Transaction ID</th>
+                <th class="sortable" onclick="sortTable(1)">Amount</th>
+                <th class="sortable" onclick="sortTable(2)">Status</th>
+                <th class="sortable" onclick="sortTable(3)">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.id }}</td>
+                    <td>${{ transaction.amount }}</td>
+                    <td>{{ transaction.get_state_display }}</td>
+                    <td>{{ transaction.transaction_date }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">No transactions found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    <script>
+        // Function to sort the table by a given column index
+        let sortOrder = [true, true, true, true];  // Sort order for each column (true = ascending)
+    
+        function sortTable(columnIndex) {
+            const table = document.getElementById("transactionsTable");
+            const rows = Array.from(table.rows).slice(1); // Skip header row
+            const isAscending = sortOrder[columnIndex];
+            
+            // Sort the rows based on the column clicked
+            rows.sort((rowA, rowB) => {
+                const cellA = rowA.cells[columnIndex].innerText;
+                const cellB = rowB.cells[columnIndex].innerText;
+                
+                // Handle sorting based on column type (numbers, dates, strings)
+                if (columnIndex === 1) { // Amount (numeric)
+                    return isAscending ? parseFloat(cellA.replace('$', '')) - parseFloat(cellB.replace('$', '')) : parseFloat(cellB.replace('$', '')) - parseFloat(cellA.replace('$', ''));
+                } else if (columnIndex === 3) { // Date (Date objects)
+                    const dateA = new Date(cellA);
+                    const dateB = new Date(cellB);
+                    return isAscending ? dateA - dateB : dateB - dateA;
+                } else { // Transaction ID and Status (strings)
+                    return isAscending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+                }
+            });
+            
+            // Re-append the rows in sorted order
+            rows.forEach(row => table.appendChild(row));
+            
+            // Toggle sort order for the next click
+            sortOrder[columnIndex] = !isAscending;
+    
+            // Update the header icon
+            updateHeaderIcons(columnIndex, isAscending);
+        }
+    
+        // Function to update the sorting icon in the header
+        function updateHeaderIcons(columnIndex, isAscending) {
+            const headers = document.querySelectorAll("th");
+            headers.forEach((header, index) => {
+                header.classList.remove("sorted-asc", "sorted-desc"); // Remove old icons
+                if (index === columnIndex) {
+                    if (isAscending) {
+                        header.classList.add("sorted-asc");
+                    } else {
+                        header.classList.add("sorted-desc");
+                    }
+                }
+            });
+        }
+    </script>
+
+
+
+    
+
     </div>
     <button onclick="window.location.href='';">Request new payment</button><br>
     <button  onclick="window.location.href='{% url 'withdraw' %}';" >withdraw</button><br>

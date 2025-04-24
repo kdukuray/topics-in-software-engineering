@@ -82,7 +82,7 @@ urlpatterns = [
 After modifying models, create migrations to apply changes.
 
 ``` bash
-python manage.py makemigrations
+python ledgerpay/manage.py makemigrations
 ```
 if you have problems with this command make sure you are in the project directory
 
@@ -90,13 +90,13 @@ if you have problems with this command make sure you are in the project director
 Apply migrations to the database.
 
 ```bash
-python manage.py migrate
+python ledgerpay/manage.py migrate
 ```
 
 ### 5. Running the Server
 #### 5.1 Start the Development Server
 ```bash
-python manage.py runserver
+python ledgerpay/manage.py runserver
 ```
 Now, open your browser and go to [http://127.0.0.1:8000/](http://127.0.0.1:8000/) to see the project in action.
 

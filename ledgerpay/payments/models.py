@@ -28,7 +28,6 @@ class Transaction(models.Model):
     # states of transactions
     class TransactionState(models.TextChoices):
         PENDING = 'pending', 'Pending'
-        PROCESSING = 'processing', 'Processing'
         COMPLETED = 'completed', 'Completed'
         FAILED = 'failed', 'Failed'
         CANCELED = 'canceled', 'Canceled'
