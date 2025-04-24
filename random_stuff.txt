@@ -1,7 +1,7 @@
 admin username = "user"
 password = "password"
 
-
+tomfoolery
 features needed:
 1. accounts
 2. account balances
