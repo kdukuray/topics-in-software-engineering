@@ -8,5 +8,6 @@ urlpatterns = [
     path("", dashboard, name="dashboard"),
     path("logout", LogoutView.as_view(), name="logout"),
     path('signup/', signup, name='signup'),
-    path("withdraw/", withdraw_funds, name="withdraw"),  # Define a URL route for withdrawal
+    path("withdraw/", withdraw_funds, name="withdraw"),
+    path("home/", )  # Define a URL route for withdrawal
 ]
