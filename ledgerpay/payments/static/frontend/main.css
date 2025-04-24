@@ -218,8 +218,7 @@ input:focus, textarea:focus {
 
 /* dashboard containers */
 .items-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    display: block;
      /* Each item-block is a minimum of 300px wide */
     gap: 16px; /* Space between the grid items */
     padding: 10px;
@@ -302,9 +301,6 @@ input:focus, textarea:focus {
         padding: 1.5rem;
     }
 
-    .items-container {
-        grid-template-columns: 1fr; /* Stack items vertically on smaller screens */
-    }
 
     button {
         width: 100%; /* Make buttons full-width on mobile */
