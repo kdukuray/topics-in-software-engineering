@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
-from .views import dashboard, signup
+from .views import dashboard, signup, home_page
 from .views import withdraw_funds  # Import the new withdrawal function
 
 urlpatterns = [
@@ -9,5 +9,5 @@ urlpatterns = [
     path("logout", LogoutView.as_view(), name="logout"),
     path('signup/', signup, name='signup'),
     path("withdraw/", withdraw_funds, name="withdraw"),
-    path("home/", )  # Define a URL route for withdrawal
+    path("home/", home_page, name="home-page")  # Define a URL route for withdrawal
 ]
