@@ -39,3 +39,4 @@ terraform.rc
 
 # Ignore pycache
 ledgerpay/payments/__pycache__/
+ledgerpay/.pytest_cache/
