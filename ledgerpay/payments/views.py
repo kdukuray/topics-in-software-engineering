@@ -9,7 +9,10 @@ from django.contrib import messages  # Allows sending user-friendly messages
 # Create your views here.
 def home_page(request):
     return render(request, 'payments/home.html')
+
+
 # dashboard elements
+@login_required(login_url="login")
 def dashboard(request):
     # transactions data
     ## all transactions
