@@ -1,5 +1,8 @@
+from idlelib.pyparse import trans
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 
 from .models import Wallet, Transaction
@@ -99,9 +102,8 @@ def withdraw_funds(request):
 def new_transaction(request):
     payload = request.data
     amount = Decimal(payload.get('amount', "0"))
-    transaction_address = payload.get('transaction_address', None)
+    transaction_signature = payload.get('transaction_signature', None)
     user_wallet_address = payload.get('user_wallet_address', None)
-    on_chain_transaction_id = payload.get('on_chain_transaction_id', None)
     if user_wallet_address:
         user_wallet = Wallet.objects.get(wallet_address=user_wallet_address)
         user_id = user_wallet.associated_user.id
@@ -109,9 +111,8 @@ def new_transaction(request):
 
         if associated_user:
             new_transaction = Transaction.objects.create(amount=amount,
-                                                         transaction_address=transaction_address,
+                                                         transaction_signature=transaction_signature,
                                                          associated_user=associated_user,
-                                                         on_chain_transaction_id=on_chain_transaction_id,
                                                          state="pending"
                                                          )
             new_transaction.save()
@@ -123,6 +124,7 @@ def new_transaction(request):
 
 
 # api route to get a wallet address using a payment token (more secure)
+
 @api_view(['GET'])
 def get_wallet_address(request):
     payment_token = request.GET.get('payment_token', None)

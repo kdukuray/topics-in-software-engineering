@@ -39,13 +39,13 @@ class Transaction(models.Model):
     # amout of money
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     # blockchain address to confirm the transaction
-    transaction_address = models.CharField(max_length=50)
     # the user who got paid
     associated_user = models.ForeignKey(User, on_delete=models.CASCADE)
     # Currentstate of the transaction, made for dashboard filtering, need confirmation before migration
 
     # the unique identifier for the transaction as it saved on the blockchain
-    on_chain_transaction_id = models.CharField(max_length=255, blank=True, null=True)
+    # calling it transaction signature because that is Solana's preferred term.
+    transaction_signature = models.CharField(max_length=255, blank=True, null=True)
     state = models.CharField(
         max_length=10,
         choices=TransactionState.choices,
@@ -54,7 +54,7 @@ class Transaction(models.Model):
 
     # a display of the object or row
     def __str__(self):
-        return f"transaction of ${self.amount} to {self.associated_user.email}, state: {self.get_state_display()}"
+        return f"Transaction of {self.amount} SOL to {self.associated_user.email}, state: {self.get_state_display()}"
 
     def save(self, *args, **kwargs):
         if self.amount <= Decimal("0.00"):
