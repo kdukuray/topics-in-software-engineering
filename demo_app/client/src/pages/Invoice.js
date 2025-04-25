@@ -1,4 +1,3 @@
-
 import { Transaction, Connection, PublicKey, clusterApiUrl, SystemProgram } from '@solana/web3.js';
 import { useState } from 'react';
 import { Buffer } from 'buffer';
@@ -14,12 +13,11 @@ function Invoice() {
   const [counts, setCounts] = useState(queryParams.get("counts"))
   const [paymentToken, setPaymentToken] = useState(queryParams.get("paymenttoken"))
   const [walletConnected, setWalletConnected] = useState(false);
-  // const [tax, setTax] = useState(Number(queryParams.get("tax")));
   const [paymentType, setPaymentType] = useState("One Time Payment");
 
   const itemNames = items.split(" ");
   const itemPrices = prices.split(" ");
-  const itemCounts = counts.split(" ");  // fixed typo: 'ittemCounts' to 'itemCounts'
+  const itemCounts = counts.split(" "); 
 
   const totalPrice = itemPrices
     .map((price, index) => parseFloat(price) * parseInt(itemCounts[index] || "1"))
