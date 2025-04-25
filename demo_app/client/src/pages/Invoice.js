@@ -12,6 +12,7 @@ function Invoice() {
   const [items, setItems] = useState(queryParams.get("items"));
   const [prices, setPrices] = useState(queryParams.get("prices"));
   const [counts, setCounts] = useState(queryParams.get("counts"))
+  const [paymentToken, setPaymentToken] = useState(queryParams.get("paymenttoken"))
   // const [tax, setTax] = useState(Number(queryParams.get("tax")));
   const [paymentType, setPaymentType] = useState("One Time Payment");
 
@@ -35,40 +36,60 @@ function Invoice() {
     }
   }
 
+  async function get_wallet_address(){
+    const walletAddress = await fetch(`http://127.0.0.1:8000/get-wallet-address/?payment_token=${paymentToken}`, {
+      method: "GET",
+    })
+    alert(wallet);
+
+
+  }
+
   async function makeAndSendTransation() {
-    const blockchainConnection = new Connection(clusterApiUrl("devnet"), "confirmed");
-    await wallet.connect();
 
-    try {
-      const fromPubkey = new PublicKey(wallet.publicKey);
-      const toPubkey = new PublicKey("5hM386Bx7DeyWTP3VvePE5TAYTxMU4s9jvSWQcPbhuE7");
+    console.log(44)
+    const payload = new FormData();
+    get_wallet_address();
+    // payload.append("", use)
 
-      // Convert price from SOL to lamports (1 SOL = 1_000_000_000 lamports)
-      const lamports = totalPrice * 1_000_000_000;
 
-      let transaction = new Transaction().add(
-        SystemProgram.transfer({
-          fromPubkey,
-          toPubkey,
-          lamports,
-        })
-      );
 
-      // items=_#_[name, price,count]_#_
 
-      transaction.feePayer = fromPubkey;
-      transaction.recentBlockhash = (await blockchainConnection.getLatestBlockhash()).blockhash;
 
-      const signedTransaction = await wallet.signTransaction(transaction);
-      const txid = await blockchainConnection.sendRawTransaction(signedTransaction.serialize());
-      await blockchainConnection.confirmTransaction(txid, "confirmed");
 
-      alert(`Transaction successful! \nTransaction ID:\n${txid}`);
-      console.log("Transaction ID:", txid);
-    } catch (error) {
-      console.error("Transaction failed:", error);
-      alert("Transaction failed. See console for details.");
-    }
+    // const blockchainConnection = new Connection(clusterApiUrl("devnet"), "confirmed");
+    // await wallet.connect();
+
+    // try {
+    //   const fromPubkey = new PublicKey(wallet.publicKey);
+    //   const toPubkey = new PublicKey("5hM386Bx7DeyWTP3VvePE5TAYTxMU4s9jvSWQcPbhuE7");
+
+    //   // Convert price from SOL to lamports (1 SOL = 1_000_000_000 lamports)
+    //   const lamports = totalPrice * 1_000_000_000;
+
+    //   let transaction = new Transaction().add(
+    //     SystemProgram.transfer({
+    //       fromPubkey,
+    //       toPubkey,
+    //       lamports,
+    //     })
+    //   );
+
+    //   // items=_#_[name, price,count]_#_
+
+    //   transaction.feePayer = fromPubkey;
+    //   transaction.recentBlockhash = (await blockchainConnection.getLatestBlockhash()).blockhash;
+
+    //   const signedTransaction = await wallet.signTransaction(transaction);
+    //   const txid = await blockchainConnection.sendRawTransaction(signedTransaction.serialize());
+    //   await blockchainConnection.confirmTransaction(txid, "confirmed");
+
+    //   alert(`Transaction successful! \nTransaction ID:\n${txid}`);
+    //   console.log("Transaction ID:", txid);
+    // } catch (error) {
+    //   console.error("Transaction failed:", error);
+    //   alert("Transaction failed. See console for details.");
+    // }
   }
 
 
