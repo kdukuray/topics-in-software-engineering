@@ -117,4 +117,32 @@ body {
   background-color: #5a32a3;
 }
 
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  font-family: sans-serif;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+}
+
+.styled-table thead tr {
+  background-color: #f4f4f4;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+}
+
+.styled-table tbody tr {
+  transition: background-color 0.2s ease-in-out;
+}
+
+.styled-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
 /* end of Kalilu's css for invoice page*/
