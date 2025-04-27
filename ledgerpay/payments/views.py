@@ -64,7 +64,7 @@ def withdraw_funds(request):
                     transaction_address="Withdrawal"  
                 )
                 # Show a success message
-                messages.success(request, "Withdrawal successful!") 
+                #messages.success(request, "Withdrawal successful!") 
                 # Redirect the user back to the dashboard 
                 return redirect("dashboard")  
 
