@@ -38,9 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'payments.apps.PaymentsConfig',
+    'subscriptions',   #subscription feature
+    'rest_framework',
+     'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # MUST BE FIRST for subscription
+    'django.middleware.common.CommonMiddleware',   #subscription
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -129,3 +134,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = "dashboard"
 LOGOUT_REDIRECT_URL = "login"
+
+#subscription feature
+CORS_ALLOW_ALL_ORIGINS = True

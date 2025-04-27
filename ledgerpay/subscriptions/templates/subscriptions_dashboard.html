@@ -1,0 +1,98 @@
+{% extends 'payments/base.html' %}
+
+{% block content %}
+<h2>Your Subscribers</h2>
+
+<table class="subscriptions-table">
+    <thead>
+        <tr>
+            <th>Client Name</th>
+            <th>Email</th>
+            <th>Plan</th>
+            <th>Interval</th>
+            <th>Status</th>
+            <th>Total</th>
+            <th>Send Invoice</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in subscriptions %}
+            <tr>
+                <td>{{ s.client_name }}</td>
+                <td>{{ s.client_email }}</td>
+                <td>{{ s.plan_name }}</td>
+                <td>{{ s.interval }}</td>
+                <td>{{ s.status }}</td>
+                <td>{{ s.total_price }}</td>
+                <td>
+                    <form action="#" method="post">
+                        {% csrf_token %}
+                        <button type="submit">Send Invoice</button>
+                    </form>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="7">No subscriptions found.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
+
+<style>
+    /* General table styles */
+    .subscriptions-table {
+        width: 100%;
+        border-collapse: collapse; /* Ensure borders are collapsed together */
+        margin: 20px 0;
+        font-family: Arial, sans-serif;
+    }
+
+    /* Table headers */
+    .subscriptions-table th {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px;
+        text-align: left;
+        border: 2px solid #333; /* Darker border for header */
+    }
+
+    /* Table rows */
+    .subscriptions-table td {
+        padding: 10px;
+        text-align: left;
+        border: 2px solid #333; /* Darker border for table cells */
+    }
+
+    /* Hover effect for rows */
+    .subscriptions-table tr:hover {
+        background-color: #f2f2f2;
+    }
+
+    /* Table border */
+    .subscriptions-table {
+        border: 2px solid #333; /* Darker border around the table */
+        border-radius: 5px;
+    }
+
+    /* Add space between columns */
+    .subscriptions-table th, .subscriptions-table td {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    /* Style the 'Send Invoice' button */
+    .subscriptions-table button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    /* Change button color on hover */
+    .subscriptions-table button:hover {
+        background-color: #45a049;
+    }
+</style>

@@ -20,4 +20,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("payments.urls")),
+    path('api/subscriptions/', include('subscriptions.urls')), #subscription feature
+    path('subscriptions/', include('subscriptions.urls')),
 ]
