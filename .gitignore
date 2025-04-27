@@ -35,4 +35,4 @@ terraform.rc
 
 # Ignore enviroments
 /env
-/venv
+ledgerpay/venv

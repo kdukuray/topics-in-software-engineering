@@ -28,3 +28,20 @@ class add_user_and_wallet(UserCreationForm):
     # password4Test
     # company name 4 test
     # tokenest4
+
+
+#Alexandr 
+class WithdrawalForm(forms.Form):
+    # Define a form field for withdrawal amount
+    amount = forms.DecimalField(
+        # Maximum number of digits allowed 
+        max_digits=10, 
+        # Number of digits allowed after the decimal point 
+        decimal_places=2, 
+        # Minimum allowed withdrawal amount (cannot be zero or negative) 
+        min_value=Decimal("0.01"),  
+        # This field is required
+        required=True,  
+        # Label displayed in the form
+        label="Withdrawal Amount"  
+    )
