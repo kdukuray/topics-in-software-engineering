@@ -5,71 +5,11 @@
     <h1>
         Dashboard - {{ user.wallet.company_name }}
     </h1>
-    <h2>Your Balance on LedgerPay: {{ user.wallet.balance }}</h2>
-    <h4>Transactions:</h4>
+    <h2>Your total: {{ user.wallet.balance }}</h2>
+    <h4>Transactions details:</h4>
     <div class="items-container"> 
         <!-- Table -->
 
-
-        <style>
-            /* Basic Styling */
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #1e1e1e;
-                color: #f0f0f0;
-            }
-        
-            .container {
-                width: 90%;
-                margin: 0 auto;
-            }
-        
-            h2 {
-                color: #e2e2e2;
-            }
-        
-            table {
-                width: 100%;
-                margin-top: 20px;
-                border-collapse: collapse;
-                background-color: #2d2d2d;
-                color: #f0f0f0;
-                border-radius: 8px;
-                overflow: hidden;
-            }
-        
-            th, td {
-                padding: 10px;
-                text-align: left;
-            }
-        
-            th {
-                cursor: pointer;
-                background-color: #333;
-                border-bottom: 2px solid #444;
-            }
-        
-            tr:nth-child(even) {
-                background-color: #3a3a3a;
-            }
-        
-            tr:hover {
-                background-color: #555;
-            }
-        
-            th.sortable:hover {
-                background-color: #666;
-            }
-        
-            .sorted-asc::after {
-                content: " ↑";
-            }
-        
-            .sorted-desc::after {
-                content: " ↓";
-            }
-        </style>
-        
     <table id="transactionsTable">
         <thead>
             <tr>
@@ -148,16 +88,7 @@
         }
     </script>
 
-
-
-    
-
     </div>
-    <button onclick="window.location.href='';">Request new payment</button><br>
-    <button  onclick="window.location.href='{% url 'withdraw' %}';" >withdraw</button><br>
-    <form action="{% url 'logout' %}" method="post">
-        {% csrf_token %}
-        <button>logout</button>
-    </form>
+    
 </div>
 {% endblock %}

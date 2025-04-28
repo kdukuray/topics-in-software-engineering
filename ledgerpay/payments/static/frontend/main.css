@@ -18,50 +18,42 @@
 }
 
 body {
-    font-family: 'Motiva Sans', 'Arial', sans-serif; /* Steam uses Motiva Sans */
+    font-family: 'Motiva Sans', 'Arial', sans-serif;
     background-color: var(--dark-bg);
     color: var(--text-primary);
     line-height: 1.6;
     font-size: 1rem;
 }
 
-
-/* scroll bar */
-/* Style the scrollbar track (background of the scrollbar) */
+/* Scroll bar */
 ::-webkit-scrollbar {
-    width: 12px;  /* Width of the vertical scrollbar */
-    height: 12px; /* Height of the horizontal scrollbar */
-  }
-  
-  /* Style the scrollbar thumb (the draggable part) */
-  ::-webkit-scrollbar-thumb {
-    background-color: var(--dark-bg); /* Dark color for thumb */
-    border-radius: 6px;         /* Rounded corners for the thumb */
-    border: 3px solid var(--panel-bg); /* Subtle border for thumb */
-  }
-  
-  /* Style the scrollbar thumb when hovered */
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: var(--panel-bg); /* Lighter dark color when hovered */
-  }
-  
-  /* Style the scrollbar track when it's active (when thumb is dragged) */
-  ::-webkit-scrollbar-track {
-    background: var(--dark-bg); /* Darker track color */
-    border-radius: 10px;  /* Rounded corners for the track */
-  }
-  
-  /* Style the scrollbar corner (when both scrollbars are present) */
-  ::-webkit-scrollbar-corner {
-    background: #222222; /* Matching color to the track */
-  }
-/* scroll bar end */
+    width: 12px;
+    height: 12px;
+}
 
+::-webkit-scrollbar-thumb {
+    background-color: var(--dark-bg);
+    border-radius: 6px;
+    border: 3px solid var(--panel-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--panel-bg);
+}
+
+::-webkit-scrollbar-track {
+    background: var(--dark-bg);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-corner {
+    background: #222222;
+}
 
 /* Container */
 .container {
     width: 90%;
-    max-width: 1280px; /* Wider for modern layouts */
+    max-width: 1280px;
     margin: 0 auto;
     padding: var(--spacing);
 }
@@ -97,7 +89,7 @@ nav ul {
     list-style: none;
 }
 
-nav ul li a{
+nav ul li a {
     color: var(--text-primary);
     text-decoration: none;
     padding: 0.75rem 1.25rem;
@@ -110,7 +102,6 @@ nav ul li a:hover {
     background: rgba(102, 192, 244, 0.1);
     box-shadow: 0 0 10px var(--glow-blue);
 }
-
 
 /* Main */
 main {
@@ -132,6 +123,7 @@ h4 {
     font-weight: 300;
     text-shadow: 0 2px 8px var(--glow-blue);
 }
+
 /* Footer */
 footer {
     background-color: var(--panel-bg);
@@ -143,13 +135,15 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
 /* Buttons */
-li > button{
+li > button {
     background: none;
     border: none;
     cursor: pointer;
     font-size: medium;
 }
+
 button:not(li > button) {
     background: linear-gradient(135deg, var(--primary-blue), var(--accent-teal));
     color: var(--text-primary);
@@ -216,64 +210,106 @@ input:focus, textarea:focus {
     background: rgba(23, 26, 33, 1);
 }
 
-/* dashboard containers */
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--panel-bg);
+    color: var(--text-primary);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(102, 192, 244, 0.2);
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    cursor: pointer;
+    background-color: var(--dark-bg);
+    border-bottom: 2px solid rgba(102, 192, 244, 0.3);
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+tr:nth-child(even) {
+    background-color: rgba(23, 26, 33, 0.8);
+}
+
+tr:hover {
+    background-color: rgba(102, 192, 244, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+th.sortable:hover {
+    background-color: var(--glow-blue);
+    color: var(--text-primary);
+}
+
+.sorted-asc::after {
+    content: " ↑";
+    color: var(--accent-teal);
+}
+
+.sorted-desc::after {
+    content: " ↓";
+    color: var(--accent-teal);
+}
+
+/* Dashboard Containers */
 .items-container {
     display: block;
-     /* Each item-block is a minimum of 300px wide */
-    gap: 16px; /* Space between the grid items */
+    gap: 16px;
     padding: 10px;
-    background-color: #171a21;
+    background-color: var(--dark-bg);
     border-radius: 8px;
     border: 1px solid rgba(102, 192, 244, 0.2);
 }
 
-/* Styling for each item block */
 .item-block {
     background-color: #242c36;
     border-radius: 8px;
     border: 1px solid rgba(102, 192, 244, 0.2);
     padding: 16px;
-    color: #c7d5e0;
+    color: var(--text-primary);
     min-width: 200px;
     display: flex;
-    flex-direction: column;  /* Items arranged vertically */
+    flex-direction: column;
     justify-content: flex-start;
 }
 
-/* Media query to change the width of item blocks depending on the number of items */
+.item-block ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.item-block ul li {
+    background-color: #1e262f;
+    margin-bottom: 10px;
+    padding: 8px;
+    border-radius: 4px;
+    color: var(--text-primary);
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.item-block ul li:hover {
+    transition: 0.5s;
+    background-color: #3b434f;
+    cursor: pointer;
+}
+
+/* Media Queries */
 @media (max-width: 1000px) {
     .items-container {
-        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Adjust to 1/2 width for fewer items */
+        grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     }
 }
 
-/* Styling for unordered list */
-.item-block ul {
-    list-style-type: none;  /* Remove default bullets */
-    padding-left: 0;        /* Remove the left padding */
-    margin: 0;              /* Remove default margin */
-    width: 100%;            /* Make the list take full width */
-}
-
-/* Styling for list items */
-.item-block ul li {
-    background-color: #1e262f; /* Dark background for list items */
-    margin-bottom: 10px;         /* Add space between items */
-    padding: 8px;                /* Add padding for better spacing */
-    border-radius: 4px;          /* Rounded corners for each list item */
-    color: #c7d5e0;              /* Light text color */
-    font-size: 16px;             /* Increase font size for readability */
-    line-height: 1.5;            /* Increase line height for better text readability */
-}
-
-/* Optional hover effect for list items */
-.item-block ul li:hover {
-    transition: 0.5s;
-    background-color: #3b434f; /* Lighten the background on hover */
-    cursor: pointer;           /* Change cursor to pointer on hover */
-}
-
-/* Responsive */
 @media (max-width: 768px) {
     nav ul {
         flex-direction: column;
@@ -291,7 +327,7 @@ input:focus, textarea:focus {
     }
 
     .container {
-        width: 95%; /* Make container a bit wider on mobile */
+        width: 95%;
         padding: 0.5rem;
     }
 
@@ -301,10 +337,18 @@ input:focus, textarea:focus {
         padding: 1.5rem;
     }
 
-
     button {
-        width: 100%; /* Make buttons full-width on mobile */
-        padding: 1rem; /* Make the button bigger */
+        width: 100%;
+        padding: 1rem;
+    }
+
+    /* Adjust table for smaller screens */
+    table {
+        font-size: 0.9rem;
+    }
+
+    th, td {
+        padding: 8px;
     }
 }
 
@@ -315,10 +359,17 @@ input:focus, textarea:focus {
 
     .signup-container {
         width: 100%;
-        max-width: 100%; /* Make signup container full-width on very small screens */
+        max-width: 100%;
     }
 
     .item-block {
         padding: 12px;
+    }
+
+    /* Make table scrollable on very small screens */
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
     }
 }

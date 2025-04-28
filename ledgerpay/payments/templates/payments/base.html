@@ -9,7 +9,7 @@
 </head>
 <body>
     <header>
-        <a href="/" style="text-decoration: none; color: white;"><h1>LedgerPay</h1></a>
+        <a href="{% url 'home-page' %}" style="text-decoration: none; color: white;"><h1>LedgerPay</h1></a>
     </header>
 
     <nav>
@@ -20,8 +20,18 @@
                     <a href="/admin">Admin Page</a>
                 </li>
                 {% endif %}
+                <li>
+                    <a href="{% url 'dashboard' %}">Dashboard</a>
+                </li>
+                <li>
+                    <a href="">Genrate payment link</a>
+                </li>
+                <li>
+                    <a href="{% url 'user_settings' %}">Settings</a>
+                </li>
             <form action="{% url 'logout' %}" method="post">
                 <li>
+                    
                     {% csrf_token %}
                     <button ><a >Logout</a></button>
                 </li>

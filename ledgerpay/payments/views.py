@@ -6,8 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
 
 from .models import Wallet, Transaction
-from .forms import add_user_and_wallet
-from .forms import WithdrawalForm  # Import the WithdrawalForm we just created
+from .forms import add_user_and_wallet, WalletUpdateForm
 from decimal import Decimal  # For handling precise financial calculations
 from django.contrib import messages  # Allows sending user-friendly messages
 from datetime import datetime, timedelta # For date calculations
@@ -43,59 +42,28 @@ def signup(request):
         form = add_user_and_wallet()
     return render(request, 'payments/signup.html', {'form': form})
 
+# user data update
+@login_required
+def user_settings(request):
+    try:
+        wallet = request.user.wallet  # Access the wallet via the OneToOneField
+    except Wallet.DoesNotExist:
+        messages.error(request, "Wallet not found. Please contact support.")
+        return redirect('some_fallback_url')  # Replace with your fallback URL
 
-
-#Alexandr
-# Restrict access to only logged-in users 
-@login_required(login_url="login")  
-def withdraw_funds(request):
-    # Get the wallet of the currently logged-in user
-    user_wallet = Wallet.objects.get(associated_user=request.user)
-
-    # Check if the request method is POST 
-    if request.method == "POST":
-        # Bind form with submitted data
-        form = WithdrawalForm(request.POST)  
-        # Check if the form data is valid
-        if form.is_valid():  
-            # Get the withdrawal amount from the form
-            amount = form.cleaned_data["amount"]  
-
-            # Check if the user has enough balance
-            if amount > user_wallet.balance:
-                # Show an error message if balance is too low
-                messages.error(request, "Insufficient funds.")  
-            else:
-                # Deduct the amount from the wallet balance
-                user_wallet.balance -= amount  
-                # Save the updated wallet balance
-                user_wallet.save()  
-
-                # Create a transaction record for tracking withdrawals
-                Transaction.objects.create(
-                    # Link transaction to the logged-in user
-                    associated_user=request.user,  
-                    # Store the amount as a negative value (indicating withdrawal)
-                    amount=amount, 
-                    # Placeholder for transaction address 
-                    transaction_address="Withdrawal"  
-                )
-                # Show a success message
-                messages.success(request, "Withdrawal successful!") 
-                # Redirect the user back to the dashboard 
-                return redirect("dashboard")  
-
+    if request.method == 'POST':
+        form = WalletUpdateForm(request.POST, instance=wallet)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Wallet updated successfully!")
+            return redirect('user_settings')
+        else:
+            messages.error(request, "Please correct the errors below.")
     else:
-        # If request is GET, display an empty withdrawal form
-        form = WithdrawalForm()  
+        form = WalletUpdateForm(instance=wallet)
 
-    # Render the withdrawal page with the form
-    #return render(request, "payments/withdraw.html", {"form": form})
-    # Render the withdrawal page with the form and current balance
-    return render(request, "payments/withdraw.html", {
-    "form": form,
-    "balance": user_wallet.balance
-})
+    return render(request, 'payments/user_settings.html', {'form': form})
+
 
 # api route to create a new transaction
 @api_view(['POST'])
