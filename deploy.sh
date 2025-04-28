@@ -8,7 +8,7 @@ set -e
 VERSION=$1
 APP_NAME="django-app"          # Elastic Beanstalk app name
 ENV_NAME="django-env"           # Elastic Beanstalk environment name
-S3_BUCKET="terraform-state-ledgerpay-kdukuray-assignment-3"  # Your S3 bucket for deploy
+S3_BUCKET="terraform-state-ledgerpay-kdukuray-assignment-3"
 
 ZIP_FILE="ledgerpay_deploy-${VERSION}.zip"
 
