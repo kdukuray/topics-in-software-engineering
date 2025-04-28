@@ -1,0 +1,49 @@
+# This workflow deploys the built application to AWS Elastic Beanstalk
+
+name: deployment
+
+on:
+  workflow_run:
+    workflows: [deploy]    # Wait for deploy.yml to complete
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download application artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ledgerpay_application_artifact
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws-region: "us-east-2"
+
+      - name: Upload zip to S3 bucket
+        run: |
+          aws s3 cp ledgerpay_deploy-${{ github.sha }}.zip s3://kdukuray-ledgerpay-deploy-assignment-3
+
+      - name: Create new Elastic Beanstalk application version
+        run: |
+          aws elasticbeanstalk create-application-version \
+            --application-name django-app \
+            --source-bundle S3Bucket="kdukuray-ledgerpay-deploy-assignment-3",S3Key="ledgerpay_deploy-${{ github.sha }}.zip" \
+            --version-label "ver-${{ github.sha }}" \
+            --description "Deployed commit ${{ github.sha }}" \
+            --region "us-east-2"
+
+      - name: Deploy new application version
+        run: |
+          aws elasticbeanstalk update-environment \
+            --environment-name django-env \
+            --version-label "ver-${{ github.sha }}" \
+            --region "us-east-2"
