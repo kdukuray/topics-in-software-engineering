@@ -1,4 +1,3 @@
-
 import { Transaction, Connection, PublicKey, clusterApiUrl, SystemProgram } from '@solana/web3.js';
 import { useState } from 'react';
 import { Buffer } from 'buffer';
@@ -12,12 +11,13 @@ function Invoice() {
   const [items, setItems] = useState(queryParams.get("items"));
   const [prices, setPrices] = useState(queryParams.get("prices"));
   const [counts, setCounts] = useState(queryParams.get("counts"))
-  // const [tax, setTax] = useState(Number(queryParams.get("tax")));
+  const [paymentToken, setPaymentToken] = useState(queryParams.get("paymenttoken"))
+  const [walletConnected, setWalletConnected] = useState(false);
   const [paymentType, setPaymentType] = useState("One Time Payment");
 
   const itemNames = items.split(" ");
   const itemPrices = prices.split(" ");
-  const itemCounts = counts.split(" ");  // fixed typo: 'ittemCounts' to 'itemCounts'
+  const itemCounts = counts.split(" "); 
 
   const totalPrice = itemPrices
     .map((price, index) => parseFloat(price) * parseInt(itemCounts[index] || "1"))
@@ -32,20 +32,61 @@ function Invoice() {
       await wallet.connect();
       setConnectionStatus(true);
       setUserPublicKey(wallet.publicKey.toBase58());
+      setWalletConnected(true)
     }
   }
 
+  async function get_wallet_address(){
+    const resp = await fetch(`http://127.0.0.1:8000/get-wallet-address/?payment_token=${paymentToken}`, {
+      method: "GET",
+    })
+    if (resp.ok){
+      let data = await resp.json()
+      return data["wallet_address"]
+    }
+
+  }
+
+  async function pingLedgerPayWithNewTransaction(transaction_signature){
+    const payload = new FormData();
+    
+    const sellerWalletAddress = await get_wallet_address();
+    payload.append("user_wallet_address", sellerWalletAddress)
+    payload.append("amount", `${totalPrice}`)
+    payload.append("transaction_signature", transaction_signature)
+    const resp = await fetch(`http://127.0.0.1:8000/new-transaction/`, {
+      method: "POST",
+      body: payload,
+    })
+    if (resp.ok){
+      let transactionLedgerPayId = await resp.json()
+      alert(`Your transaction with ID: ${transactionLedgerPayId['new_transaction_id']} has been has been submitted.`)
+
+    }
+
+  }
+
   async function makeAndSendTransation() {
+    if (!walletConnected){
+      alert("Please Connect your wallet first")
+      return;
+    }
+    // use the payment token to get the sellers public wallet address
+    const sellerWalletAddress = await get_wallet_address();
+
+    // establish a blockchain connection
     const blockchainConnection = new Connection(clusterApiUrl("devnet"), "confirmed");
     await wallet.connect();
 
+    // Attempt to send transaction to the blockchain
     try {
       const fromPubkey = new PublicKey(wallet.publicKey);
-      const toPubkey = new PublicKey("5hM386Bx7DeyWTP3VvePE5TAYTxMU4s9jvSWQcPbhuE7");
+      const toPubkey = new PublicKey(sellerWalletAddress);
 
       // Convert price from SOL to lamports (1 SOL = 1_000_000_000 lamports)
       const lamports = totalPrice * 1_000_000_000;
 
+      // Create a new transaction obect
       let transaction = new Transaction().add(
         SystemProgram.transfer({
           fromPubkey,
@@ -54,8 +95,6 @@ function Invoice() {
         })
       );
 
-      // items=_#_[name, price,count]_#_
-
       transaction.feePayer = fromPubkey;
       transaction.recentBlockhash = (await blockchainConnection.getLatestBlockhash()).blockhash;
 
@@ -63,8 +102,8 @@ function Invoice() {
       const txid = await blockchainConnection.sendRawTransaction(signedTransaction.serialize());
       await blockchainConnection.confirmTransaction(txid, "confirmed");
 
-      alert(`Transaction successful! \nTransaction ID:\n${txid}`);
-      console.log("Transaction ID:", txid);
+      alert(`Transaction successful! \nTransaction Signature:\n${txid}`);
+      pingLedgerPayWithNewTransaction(txid)
     } catch (error) {
       console.error("Transaction failed:", error);
       alert("Transaction failed. See console for details.");
@@ -111,10 +150,10 @@ function Invoice() {
               </tbody>
             </table>
           </div>
-          <p><strong>Total: {totalPrice}</strong></p>
+          <p><strong>Total: {totalPrice} SOL</strong></p>
           <p><strong>Payment Type:</strong> {paymentType}</p>
         </div>
-        <button onClick={makeAndSendTransation} className="btn btn-purple">Make Transaction</button>
+        <button onClick={makeAndSendTransation} className="btn btn-purple" title="You must connect your wallet">Make Transaction</button>        
       </div>
     </div>
   );

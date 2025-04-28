@@ -30,18 +30,11 @@ class add_user_and_wallet(UserCreationForm):
     # tokenest4
 
 
-#Alexandr 
-class WithdrawalForm(forms.Form):
-    # Define a form field for withdrawal amount
-    amount = forms.DecimalField(
-        # Maximum number of digits allowed 
-        max_digits=10, 
-        # Number of digits allowed after the decimal point 
-        decimal_places=2, 
-        # Minimum allowed withdrawal amount (cannot be zero or negative) 
-        min_value=Decimal("0.01"),  
-        # This field is required
-        required=True,  
-        # Label displayed in the form
-        label="Withdrawal Amount"  
-    )
+class WalletUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Wallet
+        fields = ['company_name', 'wallet_address']
+        widgets = {
+            'company_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'wallet_address': forms.TextInput(attrs={'class': 'form-control'}),
+        }

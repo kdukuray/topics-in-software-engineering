@@ -59,6 +59,7 @@ const Checkout = () => {
   console.log(cart)
   const [paymentMethod, setPaymentMethod] = React.useState('');
   const [paymentLink, setPaymentLink] = React.useState('');
+  const paymentToken = "sdjfknwejdfncwoe";
 
 
   function getInvoiceUrl() {
@@ -81,7 +82,7 @@ const Checkout = () => {
     const prices = Object.values(itemMap).map(i => i.price).join(' ');
     const counts = Object.values(itemMap).map(i => i.count).join(' ');
   
-    const url = `http://localhost:3000/invoice/?items=${encodeURIComponent(items)}&prices=${encodeURIComponent(prices)}&counts=${encodeURIComponent(counts)}`;
+    const url = `http://localhost:3000/invoice/?items=${encodeURIComponent(items)}&prices=${encodeURIComponent(prices)}&counts=${encodeURIComponent(counts)}&paymenttoken=${encodeURIComponent(paymentToken)}`;
     return url;
   }
   
@@ -114,11 +115,11 @@ const Checkout = () => {
       <ul>
         {cart.map((product, index) => (
           <li key={index}>
-            {product.name} - ${product.price}
+            {product.name} - {product.price} SOL
           </li>
         ))}
       </ul>
-      <h3>Total: ${cart.reduce((total, product) => total + product.price, 0)}</h3>
+      <h3>Total: {cart.reduce((total, product) => total + product.price, 0)} SOL</h3>
 
       <div>
         <button onClick={() => window.location.href = getInvoiceUrl()}>Pay with LedgerPay</button>
