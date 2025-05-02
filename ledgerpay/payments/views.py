@@ -1,5 +1,10 @@
-from django.shortcuts import render
+from idlelib.pyparse import trans
+
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.response import Response
+
 from .models import Wallet, Transaction
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -10,8 +15,15 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404
 
 # Create your views here.
+def home_page(request):
+    return render(request, 'payments/home.html')
+
+
+# dashboard elements
 @login_required(login_url="login")
 def dashboard(request):
+    # transactions data
+    ## all transactions
     all_user_transactions = Transaction.objects.filter(associated_user=request.user)
     return render(request, 'payments/dashboard.html', context={"transactions": all_user_transactions})
 

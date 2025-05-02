@@ -1,0 +1,39 @@
+{% extends 'payments/base.html' %}
+
+{% block content %}
+<section class="page-container" style="text-align: center;">
+    <h2 style="font-size: 2.5rem;">Your Ultimate Payment Companion</h2>
+    <p style="margin: 1rem 0; font-size: 1.1rem; color: var(--text-secondary); max-width: 700px; margin-inline: auto;">
+        LedgerPay makes managing payments easy, transparent, and secure. Whether you’re a business or an individual, track transactions, split bills, and stay in control—no stress, just simplicity.
+    </p>
+    <div style="margin-top: 2rem;">
+        <a href="{% url 'login' %}"><button>Log In</button></a>
+        <a href="{% url 'signup' %}"><button>Sign Up</button></a>
+    </div>
+</section>
+
+<section class="page-container" style="margin-top: 3rem;">
+    <h2 style="text-align: center;">What LedgerPay Offers</h2>
+    <div class="items-container">
+        <div class="item-block">
+            <h4>Secure Transactions</h4>
+            <p>Military-grade encryption ensures your data and payments stay protected.</p>
+        </div>
+        <div class="item-block">
+            <h4>Real-Time Tracking</h4>
+            <p>Instantly monitor your balances, recent payments, and bill splits.</p>
+        </div>
+        <div class="item-block">
+            <h4>Easy Invoicing</h4>
+            <p>Create, send, and track invoices all from one sleek dashboard.</p>
+        </div>
+    </div>
+</section>
+
+<section class="page-container" style="margin-top: 3rem; text-align: center;">
+    <h2>Join a Growing Community</h2>
+    <p style="color: var(--text-secondary); max-width: 650px; margin-inline: auto;">
+        LedgerPay is trusted by freelancers, small businesses, and forward-thinking teams who want smarter money management.
+    </p>
+</section>
+{% endblock %}

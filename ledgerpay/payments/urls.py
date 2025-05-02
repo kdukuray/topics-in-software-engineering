@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
-from .views import dashboard
+from .views import dashboard, signup, home_page, new_transaction, get_wallet_address, user_settings
 
 urlpatterns = [
     path("login/", LoginView.as_view(template_name="payments/login.html"), name="login"),

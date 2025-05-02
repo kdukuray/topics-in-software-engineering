@@ -12,15 +12,16 @@ class WalletModelTest(TestCase):
 
     def test_create_wallet_successfully(self):
         """Test creating a wallet with valid data"""
-        wallet = Wallet.objects.create(associated_user=self.user, balance=Decimal("100.50"), payment_token="abc123xyz")
+        wallet = Wallet.objects.create(associated_user=self.user, balance=Decimal("100.50"),company_name="1Company", payment_token="abc123xyz")
         self.assertEqual(wallet.associated_user, self.user)
         self.assertEqual(wallet.balance, Decimal("100.50"))
+        self.assertEqual(wallet.company_name, "1Company")
         self.assertEqual(wallet.payment_token, "abc123xyz")
 
     def test_wallet_str_method(self):
         """Test the string representation of the Wallet model"""
-        wallet = Wallet.objects.create(associated_user=self.user, balance=Decimal("50.00"), payment_token="xyz987abc")
-        self.assertEqual(str(wallet), "test@example.com's Wallet")
+        wallet = Wallet.objects.create(associated_user=self.user, balance=Decimal("50.00"),company_name="2Company", payment_token="xyz987abc")
+        self.assertEqual(str(wallet), "2Company's Wallet")
 
     def test_create_wallet_with_negative_balance(self):
         """Test creating a wallet with a negative balance should raise an error"""
