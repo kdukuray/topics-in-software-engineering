@@ -2,14 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Wallet, Transaction
 from .forms import add_user_and_wallet
-<<<<<<< HEAD
-import json
-=======
 from .forms import WithdrawalForm  # Import the WithdrawalForm we just created
 from decimal import Decimal  # For handling precise financial calculations
 from django.contrib import messages  # Allows sending user-friendly messages
 
->>>>>>> 04493b24a875b60e443abb6a1a46403b03d27bf3
 # Create your views here.
 @login_required(login_url="login")
 # dashboard elements
@@ -29,32 +25,6 @@ def signup(request):
     else:
         form = add_user_and_wallet()
     return render(request, 'payments/signup.html', {'form': form})
-<<<<<<< HEAD
-@login_required(login_url="login")
-def payment_method(request):
-    wallet, created = Wallet.objects.get_or_create(
-        associated_user=request.user,
-        defaults={
-            'balance': 0.00,
-            'payment_token': '121323123',  
-            'company_name': request.user.username 
-        }
-    )
-    if request.method == 'POST':
-        payment_methods = request.POST.getlist('payment_methods')
-        if payment_methods:
-            wallet.preferred_payment_methods = payment_methods
-            wallet.save()
-            return redirect('dashboard')  
-        else:
-            return render(request, 'payments/payment_method.html', {
-                'selected_methods': wallet.preferred_payment_methods,
-                'error': 'Please select at least one payment method.'
-            })
-    return render(request, 'payments/payment_method.html', {
-        'selected_methods': wallet.preferred_payment_methods
-    })
-=======
 
 
 
@@ -111,4 +81,3 @@ def withdraw_funds(request):
 })
    
   
->>>>>>> 04493b24a875b60e443abb6a1a46403b03d27bf3
