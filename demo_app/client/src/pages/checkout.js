@@ -56,8 +56,36 @@ import axios from 'axios';
 const Checkout = () => {
   const location = useLocation();
   const cart = location.state?.cart || [];  // Getting cart from state or defaulting to an empty array
+  console.log(cart)
   const [paymentMethod, setPaymentMethod] = React.useState('');
   const [paymentLink, setPaymentLink] = React.useState('');
+  const paymentToken = "sdjfknwejdfncwoe";
+
+
+  function getInvoiceUrl() {
+    const itemMap = {};
+  
+    // Aggregate duplicates
+    cart.forEach(item => {
+      const name = item.name;
+      const price = item.price;
+      const count = item.count || 1;
+  
+      if (itemMap[name]) {
+        itemMap[name].count += count;
+      } else {
+        itemMap[name] = { price, count };
+      }
+    });
+  
+    const items = Object.keys(itemMap).join(' ');
+    const prices = Object.values(itemMap).map(i => i.price).join(' ');
+    const counts = Object.values(itemMap).map(i => i.count).join(' ');
+  
+    const url = `http://localhost:3000/invoice/?items=${encodeURIComponent(items)}&prices=${encodeURIComponent(prices)}&counts=${encodeURIComponent(counts)}&paymenttoken=${encodeURIComponent(paymentToken)}`;
+    return url;
+  }
+  
 
   const handlePayment = async () => {
     if (paymentMethod === 'ledgerpay') {
@@ -73,6 +101,12 @@ const Checkout = () => {
     }
   };
 
+  function goToInvoice(){
+    
+
+
+  }
+
   return (
     <div>
       <h1>Checkout</h1>
@@ -81,14 +115,14 @@ const Checkout = () => {
       <ul>
         {cart.map((product, index) => (
           <li key={index}>
-            {product.name} - ${product.price}
+            {product.name} - {product.price} SOL
           </li>
         ))}
       </ul>
-      <h3>Total: ${cart.reduce((total, product) => total + product.price, 0)}</h3>
+      <h3>Total: {cart.reduce((total, product) => total + product.price, 0)} SOL</h3>
 
       <div>
-        <button onClick={() => setPaymentMethod('ledgerpay')}>Pay with LedgerPay</button>
+        <button onClick={() => window.location.href = getInvoiceUrl()}>Pay with LedgerPay</button>
         <button onClick={() => setPaymentMethod('paypal')}>Pay with PayPal</button>
       </div>
 

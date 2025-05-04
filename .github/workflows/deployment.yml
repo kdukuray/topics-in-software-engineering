@@ -1,0 +1,46 @@
+name: Deploy to AWS Elastic Beanstalk
+
+on:
+  workflow_run:
+    workflows: ["Build and Package Application"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    name: Deploy Django App
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: app-package
+          path: .
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: Upload ZIP to S3
+        run: |
+          aws s3 cp ledgerpay-deploy.zip s3://diakitejunior1-ledgerpay/ledgerpay-deploy-${{ github.run_number }}.zip
+
+      - name: Create Elastic Beanstalk Application Version
+        run: |
+          aws elasticbeanstalk create-application-version \
+            --application-name my-django-app \
+            --version-label ver-${{ github.run_number }} \
+            --description "Deployed version ${{ github.run_number }} from GitHub Actions" \
+            --source-bundle S3Bucket="diakitejunior1-ledgerpay",S3Key="ledgerpay-deploy-${{ github.run_number }}.zip" \
+            --region us-east-2
+
+      - name: Update Elastic Beanstalk Environment
+        run: |
+          aws elasticbeanstalk update-environment \
+            --environment-name my-django-env \
+            --version-label ver-${{ github.run_number }} \
+            --region us-east-2
