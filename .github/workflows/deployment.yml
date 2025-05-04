@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download build artifact
+      - name: Download artifact
         uses: actions/download-artifact@v3
         with:
           name: app-package
@@ -25,9 +25,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
           aws-region: us-east-2
 
-      - name: Upload app ZIP to S3
+      - name: Upload ZIP to S3
         run: |
-          aws s3 cp app_package.zip s3://diakitejunior1-ledgerpay/app_package-${{ github.run_number }}.zip
+          aws s3 cp ledgerpay-deploy.zip s3://diakitejunior1-ledgerpay/ledgerpay-deploy-${{ github.run_number }}.zip
 
       - name: Create Elastic Beanstalk Application Version
         run: |
@@ -35,7 +35,7 @@ jobs:
             --application-name my-django-app \
             --version-label ver-${{ github.run_number }} \
             --description "Deployed version ${{ github.run_number }} from GitHub Actions" \
-            --source-bundle S3Bucket="diakitejunior1-ledgerpay",S3Key="app_package-${{ github.run_number }}.zip" \
+            --source-bundle S3Bucket="diakitejunior1-ledgerpay",S3Key="ledgerpay-deploy-${{ github.run_number }}.zip" \
             --region us-east-2
 
       - name: Update Elastic Beanstalk Environment
