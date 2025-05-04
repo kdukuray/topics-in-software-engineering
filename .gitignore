@@ -32,3 +32,12 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+# Ignore enviroments
+/env
+/venv
+
+# Ignore pycache
+ledgerpay/payments/__pycache__/
+ledgerpay/.pytest_cache/
+ledgerpay/ledgerpay/__pycache__/
