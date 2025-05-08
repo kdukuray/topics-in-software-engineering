@@ -22,6 +22,7 @@ jobs:
           
 
       - name: Prepare ledgerpay
+        working-directory: ledgerpay
         run: |
           python manage.py collectstatic --noinput
         env:
