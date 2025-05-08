@@ -50,6 +50,5 @@ jobs:
           --description "commit-sha-${{ github.sha }}"
 
       - name: Deploy to Elastic Beanstalk
-        run: aws elasticbeanstalk update-environment \
-          --environment-name Django-environment \
-          --version-label "ver-${{ github.sha }}"
+        run: aws elasticbeanstalk update-environment --environment-name Django-environment --version-label "ver-${{ github.sha }}"
+
