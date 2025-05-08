@@ -23,7 +23,7 @@ jobs:
     
     steps:
       # Clone the repository.
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           # This is required or we end up in detached head state & thus cannot push any changes.
           ref: ${{ github.head_ref }}
@@ -56,7 +56,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.TERRAFORM_AWS_SECRET_ACCESS_KEY }}
     
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       # Download & set up the terraform CLI.
       - name: Set up terraform CLI
         uses: hashicorp/setup-terraform@v1
