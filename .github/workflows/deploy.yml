@@ -1,0 +1,59 @@
+# This workflow will deploy the application to the running environment after a successful merge to main
+
+name: deploy
+
+on:
+    workflow_run:
+        workflows: [test]
+        types: [completed]
+        branches: [main]
+
+jobs:
+    on-success:
+        runs-on: ubuntu-latest
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+        steps:
+            - uses: actions/checkout@v3
+            - name: Install dependencies
+              run: |
+                python -m pip install --upgrade pip
+                pip install wheel
+                pip install -r requirements.txt
+                pip install -e .
+
+            - name: Prepare ledgerpay
+              run: |
+                python manage.py collectstatic --noinput
+              env:
+                DJANGO_SETTINGS_MODULE: ledgerpay.settings
+
+            - name: Build binary distribution and upload to artifactory
+              run: zip -r "ledgerpay_deploy-${{github.sha}}.zip" ./ledgerpay manage.py requirements.txt .ebextensions
+              # Adjust files above based on your application's needs
+
+            - name: Upload application artifact
+              uses: actions/upload-artifact@v3
+              with:
+                name: ledgerpay_application_artifact
+                path: ledgerpay_deploy-${{github.sha}}.zip
+
+            - name: Configure AWS Credentials
+              uses: aws-actions/configure-aws-credentials@v2
+              with:
+                aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
+                aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+                aws-region: "us-east-1"
+
+            - name: Upload application file to AWS
+              run: aws s3 cp ledgerpay_deploy-${{github.sha}}.zip s3://terraform-state-ledgerpay-gizmo1547
+
+            - name: Create new application version
+              run: |
+                aws elasticbeanstalk create-application-version \
+                --application-name ledgerpay \
+                --source-bundle S3Bucket="terraform-state-ledgerpay-gizmo1547",S3Key="ledgerpay_deploy-${{github.sha}}.zip" \
+                --version-label "ver-${{ github.sha }}" \
+                --description "commit-sha-${{ github.sha }}"
+
+            - name: Deploy application
+              run: aws elasticbeanstalk update-environment --environment-name Django-environment --version-label "ver-${{ github.sha }}"
