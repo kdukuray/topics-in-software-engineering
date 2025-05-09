@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Package application into a zip file
-zip -r "ledgerpay_deploy-$1.zip" ./ledgerpay manage.py requirements.txt .ebextensions
+zip -r "ledgerpay_deploy-$1.zip" ./ledgerpay manage.py requirements.txt .ebextensions ledgerpay/wsgi.py
+
 # Adjust files above based on your application's needs
 
 # Upload zip to S3

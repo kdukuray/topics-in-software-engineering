@@ -1,4 +1,3 @@
-###deploy.yml###
 name: deploy
 
 on:
@@ -13,14 +12,19 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install wheel
           pip install -r requirements.txt
-          
 
       - name: Prepare ledgerpay
         working-directory: ledgerpay
@@ -30,7 +34,13 @@ jobs:
           DJANGO_SETTINGS_MODULE: ledgerpay.settings
 
       - name: Build deployment zip
-        run: zip -r "ledgerpay_deploy-${{ github.sha }}.zip" ./ledgerpay manage.py requirements.txt .ebextensions
+        run: zip -r "ledgerpay_deploy-${{ github.sha }}.zip" ./ledgerpay ledgerpay/wsgi.py manage.py requirements.txt .ebextensions
+
+      - name: Upload application artifact to GitHub
+        uses: actions/upload-artifact@v3
+        with:
+          name: ledgerpay_application_artifact
+          path: ledgerpay_deploy-${{ github.sha }}.zip
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -45,10 +55,15 @@ jobs:
       - name: Create Elastic Beanstalk app version
         run: |
           aws elasticbeanstalk create-application-version \
-          --application-name ledgerpay \
-          --source-bundle S3Bucket="terraform-state-ledgerpay-gizmo1547",S3Key="ledgerpay_deploy-${{ github.sha }}.zip" \
-          --version-label "ver-${{ github.sha }}" \
-          --description "commit-sha-${{ github.sha }}"
+            --application-name ledgerpay \
+            --source-bundle S3Bucket="terraform-state-ledgerpay-gizmo1547",S3Key="ledgerpay_deploy-${{ github.sha }}.zip" \
+            --version-label "ver-${{ github.sha }}" \
+            --description "commit-sha-${{ github.sha }}" \
+            --region us-east-1
 
       - name: Deploy to Elastic Beanstalk
-        run: aws elasticbeanstalk update-environment --environment-name Django-environment --version-label "ver-${{ github.sha }}"
+        run: |
+          aws elasticbeanstalk update-environment \
+            --environment-name Django-environment \
+            --version-label "ver-${{ github.sha }}" \
+            --region us-east-1
