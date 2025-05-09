@@ -37,7 +37,7 @@ jobs:
         run: zip -r "ledgerpay_deploy-${{ github.sha }}.zip" ./ledgerpay ledgerpay/wsgi.py manage.py requirements.txt .ebextensions
 
       - name: Upload application artifact to GitHub
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ledgerpay_application_artifact
           path: ledgerpay_deploy-${{ github.sha }}.zip
