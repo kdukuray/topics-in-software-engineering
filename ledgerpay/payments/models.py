@@ -30,9 +30,10 @@ class Transaction(models.Model):
     # states of transactions
     class TransactionState(models.TextChoices):
         PENDING = 'pending', 'Pending'
-        COMPLETED = 'completed', 'Completed'
+        PROCESSED = 'processed', 'Processed'
+        CONFIRMED = 'confirmed', 'Confirmed'
+        FINALIZED = 'finalized', 'Finalized'
         FAILED = 'failed', 'Failed'
-        CANCELED = 'canceled', 'Canceled'
 
     # date transaction was made
     transaction_date = models.DateTimeField(auto_now_add=True)
