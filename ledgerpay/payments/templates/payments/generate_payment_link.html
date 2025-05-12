@@ -36,7 +36,7 @@
     const amount = encodeURIComponent(document.getElementById("amount").value.trim());
     const token = encodeURIComponent(document.getElementById("paymentToken").value.trim());
 
-    const baseUrl = "http://localhost:3000/generalinvoice";
+    const baseUrl = "https://steady-melba-a90a8a.netlify.app/generalinvoice";
     const url = `${baseUrl}?payment_name=${name}&amount=${amount}&payment_token=${token}`;
 
     document.getElementById("generatedLink").href = url;
