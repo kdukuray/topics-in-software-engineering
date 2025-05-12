@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Ch
 import Home from './pages/Home';
 import Checkout from './pages/checkout';
 import Invoice from "./pages/Invoice"
+import SubscribeToBusiness from './pages/SubscribeToBusiness';
+import SubsInvoice from './pages/SubsInvoice';
+
 
 function App() {
   return (
@@ -12,6 +15,8 @@ function App() {
           <Route path="/" element={<Home />} />  {/* Use 'element' prop instead of 'component' */}
           <Route path="/checkout" element={<Checkout />} /> {/* Use 'element' prop */}
           <Route path="/invoice" element={<Invoice />} />
+          <Route path="/subscribe" element={<SubscribeToBusiness />} />
+          <Route path="/SubsInvoice" element={<SubsInvoice />} />
         </Routes>
       </div>
     </Router>
