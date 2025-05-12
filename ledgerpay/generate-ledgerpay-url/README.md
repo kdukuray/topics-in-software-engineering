@@ -7,12 +7,12 @@ Useful for creating pre-filled payment links in LedgerPay-powered applications.
 
 ## 📦 Installation
 
-```bash
+```
+bash
 npm install generate-ledgerpay-url
+```
 🚀 Usage
-js
-Copy
-Edit
+```
 const generateLedgerPayUrl = require('generate-ledgerpay-url');
 
 const cart = [
@@ -25,20 +25,19 @@ const paymentToken = 'abc123';
 
 const url = generateLedgerPayUrl(cart, paymentToken);
 console.log(url);
+```
 🧾 Sample Output:
-
-bash
-Copy
-Edit
+```
 https://steady-melba-a90a8a.netlify.app/invoice/?items=T-shirt Mug&prices=25 10&counts=3 1&paymenttoken=abc123
+```
+---
 🧠 Function Signature
-ts
-Copy
-Edit
+```
 generateLedgerPayUrl(
   cart: Array<{ name: string; price: number|string; count?: number }>,
   paymentToken: string
 ): string
+```
 🛠 How It Works
 Accepts an array of items (name, price, count).
 
@@ -57,9 +56,7 @@ paymenttoken: your LedgerPay destination token
 Returns a full invoice URL ready to use in a browser or payment flow.
 
 🧪 Example Test
-js
-Copy
-Edit
+```
 const url = generateLedgerPayUrl(
   [
     { name: 'Notebook', price: 5, count: 2 },
@@ -68,8 +65,10 @@ const url = generateLedgerPayUrl(
   ],
   'myToken123'
 );
-
+```
+```
 // Output: 
 // https://steady-melba-a90a8a.netlify.app/invoice/?items=Notebook Pen&prices=5 1.5&counts=3 3&paymenttoken=myToken123
+```
 📄 License
 MIT © [Ledger Pay Team]
