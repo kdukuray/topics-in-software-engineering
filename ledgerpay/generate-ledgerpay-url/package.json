@@ -1,0 +1,21 @@
+{
+    "name": "generate-ledgerpay-url",
+    "version": "1.0.0",
+    "description": "Generate a LedgerPay invoice URL from a cart array and payment token",
+    "main": "dist/index.js",
+    "scripts": {
+      "build": "mkdir -p dist && cp src/index.js dist/index.js"
+    },
+    "keywords": [
+      "ledgerpay",
+      "invoice",
+      "payment-link",
+      "url-generator"
+    ],
+    "author": "ledgerpayteam",
+    "license": "MIT",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/kdukuray/generate-ledgerpay-url"
+    }
+  }
