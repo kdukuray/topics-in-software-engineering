@@ -144,6 +144,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Required for collectstati
 # Optional but helpful on Heroku
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'ledgerpay', 'payments', 'static'),
 ]
 
 CORS_ALLOWED_ORIGINS = [
