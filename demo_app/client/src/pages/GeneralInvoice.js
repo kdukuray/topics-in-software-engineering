@@ -27,7 +27,7 @@ function GeneralInvoice() {
   }
 
   async function get_wallet_address() {
-    const resp = await fetch(`http://127.0.0.1:8000/get-wallet-address/?payment_token=${paymentToken}`, {
+    const resp = await fetch(`https://ledger-pay-demo-spring-fff5fa203a7c.herokuapp.com/get-wallet-address/?payment_token=${paymentToken}`, {
       method: "GET",
     });
     if (resp.ok) {
@@ -43,7 +43,7 @@ function GeneralInvoice() {
     payload.append("amount", `${amount}`);
     payload.append("transaction_signature", transaction_signature);
 
-    const resp = await fetch(`http://127.0.0.1:8000/new-transaction/`, {
+    const resp = await fetch(`https://ledger-pay-demo-spring-fff5fa203a7c.herokuapp.com/new-transaction/`, {
       method: "POST",
       body: payload,
     });
