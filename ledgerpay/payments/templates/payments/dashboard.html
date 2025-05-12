@@ -1,94 +1,39 @@
 {% extends 'payments/base.html' %}
 
 {% block content %}
-<div class="page-container">
-    <h1>
-        Dashboard - {{ user.wallet.company_name }}
-    </h1>
-    <h2>Your total: {{ user.wallet.balance }}</h2>
-    <h4>Transactions details:</h4>
-    <div class="items-container"> 
-        <!-- Table -->
-
-    <table id="transactionsTable">
-        <thead>
-            <tr>
-                <th class="sortable" onclick="sortTable(0)">Transaction ID</th>
-                <th class="sortable" onclick="sortTable(1)">Amount</th>
-                <th class="sortable" onclick="sortTable(2)">Status</th>
-                <th class="sortable" onclick="sortTable(3)">Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for transaction in transactions %}
-                <tr>
-                    <td>{{ transaction.id }}</td>
-                    <td>${{ transaction.amount }}</td>
-                    <td>{{ transaction.get_state_display }}</td>
-                    <td>{{ transaction.transaction_date }}</td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="4">No transactions found.</td>
-                </tr>
+<div class="dashboard-container">
+<h1>
+    Dashboard - {{ user.wallet.company_name }}
+</h1>
+<h2>Your Balance on LedgerPay: {{ user.wallet.balance }}</h2>
+<h4>Transactions:</h4>
+<div class="items-container"> 
+    
+<!-- container of items -->
+    <div class="item-block">
+        <!-- one item -->
+        <ul>
+            {% for i in transactions %}
+                <li>
+                    {{ i.amount }} -
+                    {{ i.transaction_date }}
+                </li>
             {% endfor %}
-        </tbody>
-    </table>
 
-
-    <script>
-        // Function to sort the table by a given column index
-        let sortOrder = [true, true, true, true];  // Sort order for each column (true = ascending)
-    
-        function sortTable(columnIndex) {
-            const table = document.getElementById("transactionsTable");
-            const rows = Array.from(table.rows).slice(1); // Skip header row
-            const isAscending = sortOrder[columnIndex];
-            
-            // Sort the rows based on the column clicked
-            rows.sort((rowA, rowB) => {
-                const cellA = rowA.cells[columnIndex].innerText;
-                const cellB = rowB.cells[columnIndex].innerText;
-                
-                // Handle sorting based on column type (numbers, dates, strings)
-                if (columnIndex === 1) { // Amount (numeric)
-                    return isAscending ? parseFloat(cellA.replace('$', '')) - parseFloat(cellB.replace('$', '')) : parseFloat(cellB.replace('$', '')) - parseFloat(cellA.replace('$', ''));
-                } else if (columnIndex === 3) { // Date (Date objects)
-                    const dateA = new Date(cellA);
-                    const dateB = new Date(cellB);
-                    return isAscending ? dateA - dateB : dateB - dateA;
-                } else { // Transaction ID and Status (strings)
-                    return isAscending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
-                }
-            });
-            
-            // Re-append the rows in sorted order
-            rows.forEach(row => table.appendChild(row));
-            
-            // Toggle sort order for the next click
-            sortOrder[columnIndex] = !isAscending;
-    
-            // Update the header icon
-            updateHeaderIcons(columnIndex, isAscending);
-        }
-    
-        // Function to update the sorting icon in the header
-        function updateHeaderIcons(columnIndex, isAscending) {
-            const headers = document.querySelectorAll("th");
-            headers.forEach((header, index) => {
-                header.classList.remove("sorted-asc", "sorted-desc"); // Remove old icons
-                if (index === columnIndex) {
-                    if (isAscending) {
-                        header.classList.add("sorted-asc");
-                    } else {
-                        header.classList.add("sorted-desc");
-                    }
-                }
-            });
-        }
-    </script>
-
+        </ul>
     </div>
-    
+</div>
+<button>Request new payment</button><br>
+<form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button>logout</button>
+</form>
+
+ <!-- Button to redirect to subscriptions dashboard -->
+ <a href="{% url 'subscriptions_dashboard' %}">
+    <button>View Subscriptions</button>
+</a>
+
 </div>
 {% endblock %}
+

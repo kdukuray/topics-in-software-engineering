@@ -9,37 +9,14 @@
 </head>
 <body>
     <header>
-        <a href="{% url 'home-page' %}" style="text-decoration: none; color: white;"><h1>LedgerPay</h1></a>
+        <h1>LedgerPay</h1>
     </header>
 
     <nav>
         <ul>
-            {% if user.is_authenticated %}
-                {% if user.is_superuser %}
-                <li>
-                    <a href="/admin">Admin Page</a>
-                </li>
-                {% endif %}
-                <li>
-                    <a href="{% url 'dashboard' %}">Dashboard</a>
-                </li>
-                <li>
-                    <a href="">Genrate payment link</a>
-                </li>
-                <li>
-                    <a href="{% url 'user_settings' %}">Settings</a>
-                </li>
-            <form action="{% url 'logout' %}" method="post">
-                <li>
-                    
-                    {% csrf_token %}
-                    <button ><a >Logout</a></button>
-                </li>
-            </form>
-            {% else %}
-                <li><a href="{% url 'login' %}">login</a></li>
-                <li><a href="{% url 'signup' %}">signup</a></li>
-            {% endif %}
+            <li><a href="/admin">Admin Page</a></li>
+            <li><a href="/">login</a></li>
+            <li><a href="/signup">signup</a></li>
         </ul>
     </nav>
 

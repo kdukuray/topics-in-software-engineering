@@ -2,9 +2,6 @@
 	"folders": [
 		{
 			"path": "."
-		},
-		{
-			"path": "../topics-in-software-engineering-2"
 		}
 	],
 	"settings": {}
