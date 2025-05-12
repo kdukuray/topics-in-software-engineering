@@ -1,1 +1,1 @@
-web: gunicorn myapp.wsgi --chdir myapp
+web: gunicorn ledgerpay.wsgi --chdir myapp
