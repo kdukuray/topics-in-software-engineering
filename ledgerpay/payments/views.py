@@ -1,9 +1,11 @@
 from idlelib.pyparse import trans
 
+from django.db.models.expressions import result
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
+from .utils import check_transaction_status
 
 from .models import Wallet, Transaction
 from .forms import add_user_and_wallet, WalletUpdateForm
@@ -22,15 +24,37 @@ def home_page(request):
 # dashboard elements
 @login_required(login_url="login")
 def dashboard(request):
-    # transactions data
-    ## all transactions
-    all_user_transactions = Transaction.objects.filter(associated_user=request.user)
+    user = request.user
+    if request.method == 'POST':
+        try:
+            pending_transactions = Transaction.objects.filter(associated_user=user, state="pending")
+            for p_transaction in pending_transactions:
+                tx_sig = p_transaction.transaction_signature
+                try:
+                    result = check_transaction_status(tx_sig)
+                    if result:
+                        normalized_result = result.lower()
+                        match normalized_result:
+                            case "processed" | "confirmed" | "finalized":
+                                new_status = normalized_result
+                            case _:
+                                new_status = "pending"
+                        if new_status != p_transaction.state:
+                            p_transaction.state = new_status
+                            p_transaction.save()
+                except:
+                    break  # Exit early and fall back to GET behavior
+        except:
+            pass  # Just fall through silently
 
-
+    all_user_transactions = Transaction.objects.filter(associated_user=user)
+    total_value_transacted = 0
+    for transaction in all_user_transactions:
+        total_value_transacted += transaction.amount
     return render(request, 'payments/dashboard.html', context={
-    "transactions": all_user_transactions
-})
-
+        "transactions": all_user_transactions,
+        "total_value_transacted": total_value_transacted
+    })
 
 def signup(request):
     if request.method == 'POST':
