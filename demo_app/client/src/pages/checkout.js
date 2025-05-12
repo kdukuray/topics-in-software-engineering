@@ -82,7 +82,7 @@ const Checkout = () => {
     const prices = Object.values(itemMap).map(i => i.price).join(' ');
     const counts = Object.values(itemMap).map(i => i.count).join(' ');
   
-    const url = `http://localhost:3000/invoice/?items=${encodeURIComponent(items)}&prices=${encodeURIComponent(prices)}&counts=${encodeURIComponent(counts)}&paymenttoken=${encodeURIComponent(paymentToken)}`;
+    const url = `https://steady-melba-a90a8a.netlify.app/invoice/?items=${encodeURIComponent(items)}&prices=${encodeURIComponent(prices)}&counts=${encodeURIComponent(counts)}&paymenttoken=${encodeURIComponent(paymentToken)}`;
     return url;
   }
   
