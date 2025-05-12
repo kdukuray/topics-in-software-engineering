@@ -7,7 +7,7 @@ function SubscribeToBusiness() {
     client_phone: "",
     plan_name: "",
     total_price: "",
-    business_name: "", // required to match with Django User
+    business_name: "",
   });
 
   const [submitted, setSubmitted] = useState(false);
@@ -20,11 +20,14 @@ function SubscribeToBusiness() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/subscriptions/create/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        "https://ledger-pay-demo-spring-fff5fa203a7c.herokuapp.com/api/subscriptions/create/",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
 
       if (res.ok) {
         setSubmitted(true);
@@ -39,50 +42,60 @@ function SubscribeToBusiness() {
   };
 
   if (submitted) {
-    return <p>✅ Subscription successful! You’ll receive a payment link soon.</p>;
+    return (
+      <div className="success-message">
+        ✅ Subscription successful! You’ll receive a payment link soon.
+      </div>
+    );
   }
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto" }}>
-      <h2>Subscribe to a Business</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="subscription-container">
+      <h2 className="subscription-title">Subscribe to a Business</h2>
+      <form onSubmit={handleSubmit} className="subscription-form">
         <input
+          className="form-input"
           name="client_name"
           placeholder="Your Name"
           onChange={handleChange}
           required
-        /><br />
+        />
         <input
+          className="form-input"
           name="client_email"
           type="email"
           placeholder="Email"
           onChange={handleChange}
           required
-        /><br />
+        />
         <input
+          className="form-input"
           name="client_phone"
           placeholder="Phone (optional)"
           onChange={handleChange}
-        /><br />
+        />
         <input
+          className="form-input"
           name="plan_name"
           placeholder="Plan Name"
           onChange={handleChange}
           required
-        /><br />
+        />
         <input
+          className="form-input"
           name="total_price"
           placeholder="Price in SOL"
           onChange={handleChange}
           required
-        /><br />
+        />
         <input
+          className="form-input"
           name="business_name"
           placeholder="Business Username"
           onChange={handleChange}
           required
-        /><br /><br />
-        <button type="submit">Subscribe</button>
+        />
+        <button type="submit" className="submit-button">Subscribe</button>
       </form>
     </div>
   );

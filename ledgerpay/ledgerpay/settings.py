@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+import django_on_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -135,6 +137,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = "dashboard"
 LOGOUT_REDIRECT_URL = "login"
 
+
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Required for collectstatic
+
+# Optional but helpful on Heroku
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'payments'),
+]
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
@@ -150,3 +162,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'diakitejunior00@gmail.com'         # your sender email
 EMAIL_HOST_PASSWORD = 'wras hpjz lqbv ekcz' # use app password if using Gmail
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+django_on_heroku.settings(locals())
