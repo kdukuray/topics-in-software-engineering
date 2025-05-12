@@ -127,3 +127,7 @@ def get_wallet_address(request):
         if wallet_address:
             return Response({"wallet_address": wallet_address}, status=status.HTTP_200_OK)
     return Response({"error": "User does not exist."}, status=status.HTTP_400_BAD_REQUEST)
+
+
+def generate_payment_link(request):
+    return render(request, 'payments/generate_payment_link.html')

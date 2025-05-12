@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-21u=#_b*t^pr&iz@l$s+4_n#mr0n2&avzl$&_0lr+^#xflljfm
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -138,8 +138,6 @@ LOGOUT_REDIRECT_URL = "login"
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
-
-
 
 #subscription feature
 CORS_ALLOW_ALL_ORIGINS = True

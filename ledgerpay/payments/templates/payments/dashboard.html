@@ -2,20 +2,25 @@
 
 {% block content %}
 <div class="page-container">
-    <h1>
-        Dashboard - {{ user.wallet.company_name }}
-    </h1>
+    <h1>Dashboard - {{ user.wallet.company_name }}</h1>
     <h2>Total Value Transacted: {{ total_value_transacted }} SOL</h2>
 
-    <!-- Refresh Button -->
-    <form method="POST" style="margin-bottom: 1rem;">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-primary">🔄 Refresh Transactions</button>
-    </form>
+    <!-- Flex container for buttons -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <!-- Refresh Button -->
+        <form method="POST" style="margin: 0;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">🔄 Refresh Transactions</button>
+        </form>
 
-    <h4>Transactions details:</h4>
+        <!-- Subscriptions Button -->
+        <a href="{% url 'subscriptions_dashboard' %}">
+            <button class="btn btn-secondary">📄 View Subscriptions</button>
+        </a>
+    </div>
+
+    <h4>Transaction Details:</h4>
     <div class="items-container">
-        <!-- Table -->
         <table id="transactionsTable">
             <thead>
                 <tr>
@@ -42,64 +47,41 @@
         </table>
 
         <script>
-            // Function to sort the table by a given column index
-            let sortOrder = [true, true, true, true];  // Sort order for each column (true = ascending)
+            let sortOrder = [true, true, true, true];
 
             function sortTable(columnIndex) {
                 const table = document.getElementById("transactionsTable");
-                const rows = Array.from(table.rows).slice(1); // Skip header row
+                const rows = Array.from(table.rows).slice(1);
                 const isAscending = sortOrder[columnIndex];
 
-                // Sort the rows based on the column clicked
                 rows.sort((rowA, rowB) => {
                     const cellA = rowA.cells[columnIndex].innerText;
                     const cellB = rowB.cells[columnIndex].innerText;
 
-                    // Handle sorting based on column type (numbers, dates, strings)
-                    if (columnIndex === 1) { // Amount (numeric)
-                        return isAscending ? parseFloat(cellA.replace('$', '')) - parseFloat(cellB.replace('$', '')) : parseFloat(cellB.replace('$', '')) - parseFloat(cellA.replace('$', ''));
-                    } else if (columnIndex === 3) { // Date (Date objects)
-                        const dateA = new Date(cellA);
-                        const dateB = new Date(cellB);
-                        return isAscending ? dateA - dateB : dateB - dateA;
-                    } else { // Transaction ID and Status (strings)
+                    if (columnIndex === 1) {
+                        return isAscending ? parseFloat(cellA) - parseFloat(cellB) : parseFloat(cellB) - parseFloat(cellA);
+                    } else if (columnIndex === 3) {
+                        return isAscending ? new Date(cellA) - new Date(cellB) : new Date(cellB) - new Date(cellA);
+                    } else {
                         return isAscending ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
                     }
                 });
 
-                // Re-append the rows in sorted order
                 rows.forEach(row => table.appendChild(row));
-
-                // Toggle sort order for the next click
                 sortOrder[columnIndex] = !isAscending;
-
-                // Update the header icon
                 updateHeaderIcons(columnIndex, isAscending);
             }
 
-            // Function to update the sorting icon in the header
             function updateHeaderIcons(columnIndex, isAscending) {
                 const headers = document.querySelectorAll("th");
                 headers.forEach((header, index) => {
-                    header.classList.remove("sorted-asc", "sorted-desc"); // Remove old icons
+                    header.classList.remove("sorted-asc", "sorted-desc");
                     if (index === columnIndex) {
-                        if (isAscending) {
-                            header.classList.add("sorted-asc");
-                        } else {
-                            header.classList.add("sorted-desc");
-                        }
+                        header.classList.add(isAscending ? "sorted-asc" : "sorted-desc");
                     }
                 });
             }
         </script>
     </div>
-</div>
-
-
-<!-- Button to redirect to subscriptions dashboard -->
-<a href="{% url 'subscriptions_dashboard' %}">
-    <button>View Subscriptions</button>
-</a>
-
 </div>
 {% endblock %}
