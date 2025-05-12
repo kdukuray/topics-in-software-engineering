@@ -46,3 +46,7 @@ ledgerpay/ledgerpay/__pycache__/
 **/node_modules/
 
 demo_app/client/node_modules/
+
+**/__pycache__/
+# Ignore subscriptions folder and .pyc files
+*.pyc

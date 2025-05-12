@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'payments.apps.PaymentsConfig',
+
+    'subscriptions',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +138,17 @@ LOGOUT_REDIRECT_URL = "login"
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
+
+
+
+#subscription feature
+CORS_ALLOW_ALL_ORIGINS = True
+
+# Email settings (example using Gmail)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'diakitejunior00@gmail.com'         # your sender email
+EMAIL_HOST_PASSWORD = 'wras hpjz lqbv ekcz' # use app password if using Gmail
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
